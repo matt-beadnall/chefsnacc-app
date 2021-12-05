@@ -1,0 +1,15 @@
+.gallery-frame {
+    width:300px;
+    background-color: white;
+    margin-right:20px
+}
+
+.gallery-image {
+    width:80%;
+}
+
+.gallery-container {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
