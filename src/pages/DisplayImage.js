@@ -1,4 +1,4 @@
-import Carousel, { Modal, ModalGateway } from "react-images";
+// import Carousel, { Modal, ModalGateway } from "react-images";
 import React, { useCallback, useEffect, useState } from "react";
 
 import Gallery from "react-photo-gallery";
@@ -58,7 +58,7 @@ export default function DisplayImage({ currentPageId }) {
   useEffect(() => {
     axios
       .get(
-        `http://${process.env.REACT_APP_HOST}:4000/chefsnacc/ingredients/gallery`
+        `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/gallery`
       )
       .then((res) => {
         let pictureArray = [];
@@ -111,7 +111,7 @@ export default function DisplayImage({ currentPageId }) {
           <Gallery photos={pictures} onClick={openLightbox} />
         </GalleryContainer>
       )}
-      <ModalGateway>
+      {/* <ModalGateway>
         {viewerIsOpen ? (
           <Modal onClose={closeLightbox}>
             <Carousel
@@ -124,7 +124,7 @@ export default function DisplayImage({ currentPageId }) {
             />
           </Modal>
         ) : null}
-      </ModalGateway>
+      </ModalGateway> */}
     </div>
   );
 }

@@ -44,7 +44,7 @@ export default function CreateRecipe() {
     let newRecipe = blankRecipe;
     newRecipe.name = name;
     axios
-      .post(`http://${process.env.REACT_APP_HOST}:4000/chefsnacc/recipes/add`, newRecipe)
+      .post(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/add`, newRecipe)
       .then((res) => {
         history.push("/edit/" + res.data.newRecipe._id);
       });

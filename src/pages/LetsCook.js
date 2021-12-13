@@ -49,7 +49,7 @@ export default function LetsCook() {
     
     useEffect(() => {
       axios
-        .get(`http://${process.env.REACT_APP_HOST}:4000/chefsnacc/recipes/${id}`)
+        .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/${id}`)
         .then((response) => {
           setRecipe(response.data);
         })

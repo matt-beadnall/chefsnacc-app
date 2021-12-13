@@ -63,10 +63,10 @@ export const NavBar = ({ setOpenSidebar, isOpen }) => {
   return (
     <Nav className="navbar navbar-expand navbar-dark bg-dark">
       <NavBarContainer>
-        <Link to="/home">
+        <Link to="/">
           <Logo src={logo} alt="logo"></Logo>
         </Link>
-        <Link to="/home">
+        <Link to="/">
           <TitleText src={title} alt="title"></TitleText>
         </Link>
         <NavItemsContainer>

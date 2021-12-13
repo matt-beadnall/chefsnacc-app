@@ -137,7 +137,7 @@ export default function Recipe(props) {
     setPictures([]);
     axios
       .get(
-        `http://${process.env.REACT_APP_HOST}:4000/chefsnacc/ingredients/gallery/${props.recipe._id}`
+        `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/gallery/${props.recipe._id}`
       )
       .then((res) => {
         res.data

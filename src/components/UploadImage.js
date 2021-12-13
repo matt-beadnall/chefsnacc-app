@@ -30,7 +30,7 @@ export default function UploadImage({
 
     axios({
       method: "post",
-      url: "http://localhost:4000/chefsnacc/ingredients/gallery",
+      url: "http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/gallery",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
       // headers: formData.getHeaders(),

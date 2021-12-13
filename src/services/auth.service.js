@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:4000/api/auth/";
+const API_URL = "http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/api/auth/";
 
 const register = (username, email, password) => {
     return axios.post(API_URL + "signup", {

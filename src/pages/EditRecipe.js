@@ -172,7 +172,7 @@ export default function EditRecipe() {
 
   useEffect(() => {
     axios
-      .get(`http://${process.env.REACT_APP_HOST}:4000/chefsnacc/recipes/${id}`)
+      .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/${id}`)
       .then((response) => {
         const recipe = {
           id: id,
@@ -230,7 +230,7 @@ export default function EditRecipe() {
       if (window.confirm("Please confirm changes")) {
         axios
           .post(
-            `http://${process.env.REACT_APP_HOST}:4000/chefsnacc/recipes/update/${id}`,
+            `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/update/${id}`,
             currentRecipe
           )
           .then((res) => {
@@ -345,7 +345,7 @@ export default function EditRecipe() {
     e.preventDefault();
     axios
       .delete(
-        `http://${process.env.REACT_APP_HOST}:4000/chefsnacc/recipes/delete/${id}`,
+        `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/delete/${id}`,
         currentRecipe
       )
       .then((res) => {

@@ -48,7 +48,7 @@ const IngredientList = ({ ingredients, setIngredients }) => {
   const handleClick = (id, e) => {
     console.log(id);
     axios
-      .delete(`http://${process.env.REACT_APP_HOST}:4000/chefsnacc/ingredients/delete/${id}`)
+      .delete(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/delete/${id}`)
       .then((res) => {
         console.log(res.data);
         window.location.reload();
@@ -118,7 +118,7 @@ const CreateIngredient = ({ updateIngredients }) => {
     newIngredient.unit = unit;
     console.log(newIngredient);
     axios
-      .post(`http://${process.env.REACT_APP_HOST}:4000/chefsnacc/ingredients/add`, newIngredient)
+      .post(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/add`, newIngredient)
       .then((res) => {
         console.log(res.data);
         window.location.reload();
@@ -168,7 +168,7 @@ export default function Pantry() {
   console.log(ingredients);
   useEffect(() => {
     axios
-      .get(`http://${process.env.REACT_APP_HOST}:4000/chefsnacc/ingredients/`)
+      .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/`)
       .then((res) => {
         setIngredients(res.data);
       })
