@@ -58,16 +58,18 @@ export default function NavItems({column}) {
             </Link>
           </li>
         )}
+        {currentUser &&(
         <li className="nav-link">
           <Link to="/gallery" className="nav-link">
             Gallery
           </Link>
-        </li>
+        </li>)}
+        {currentUser &&(
         <li className="nav-link">
           <Link to="/pantry" className="nav-link">
             Pantry
           </Link>
-        </li>
+        </li>)}
       </div>
 
       {currentUser ? (

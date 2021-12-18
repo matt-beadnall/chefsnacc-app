@@ -1,4 +1,4 @@
-// import Carousel, { Modal, ModalGateway } from "react-images";
+import Carousel, { Modal, ModalGateway } from "react-images";
 import React, { useCallback, useEffect, useState } from "react";
 
 import Gallery from "react-photo-gallery";
@@ -111,7 +111,7 @@ export default function DisplayImage({ currentPageId }) {
           <Gallery photos={pictures} onClick={openLightbox} />
         </GalleryContainer>
       )}
-      {/* <ModalGateway>
+      <ModalGateway>
         {viewerIsOpen ? (
           <Modal onClose={closeLightbox}>
             <Carousel
@@ -124,7 +124,7 @@ export default function DisplayImage({ currentPageId }) {
             />
           </Modal>
         ) : null}
-      </ModalGateway> */}
+      </ModalGateway>
     </div>
   );
 }
