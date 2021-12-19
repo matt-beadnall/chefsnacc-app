@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
 import {
   Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
+  DialogTitle,
   TextField,
-  DialogActions,
 } from "@material-ui/core";
+import React, { useState } from "react";
+
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export default function CreateRecipe() {
 
@@ -44,7 +45,7 @@ export default function CreateRecipe() {
     let newRecipe = blankRecipe;
     newRecipe.name = name;
     axios
-      .post(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/add`, newRecipe)
+      .post(`http://${process.env.REACT_APP_REACT_APP_REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/add`, newRecipe)
       .then((res) => {
         history.push("/edit/" + res.data.newRecipe._id);
       });

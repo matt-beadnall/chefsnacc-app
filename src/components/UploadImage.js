@@ -1,6 +1,7 @@
 import React, {useRef, useState} from "react";
 
 import axios from "axios";
+
 const FormData = require("form-data");
 
 export default function UploadImage({
@@ -30,7 +31,7 @@ export default function UploadImage({
 
     axios({
       method: "post",
-      url: "http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/gallery",
+      url: `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery`,
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
       // headers: formData.getHeaders(),

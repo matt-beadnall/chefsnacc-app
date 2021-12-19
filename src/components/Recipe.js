@@ -131,6 +131,7 @@ export default function Recipe(props) {
     });
     setPantryIngredients(pantry);
     getPictures();
+     // eslint-disable-next-line
   }, []);
 
   const getPictures = () => {

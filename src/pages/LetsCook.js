@@ -1,8 +1,9 @@
-import { makeStyles, Button } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from 'axios';
+
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     sort_button: {
@@ -49,7 +50,7 @@ export default function LetsCook() {
     
     useEffect(() => {
       axios
-        .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/${id}`)
+        .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${id}`)
         .then((response) => {
           setRecipe(response.data);
         })

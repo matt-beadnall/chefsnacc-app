@@ -9,7 +9,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { applyChange, diff, revertChange } from "deep-diff";
 import { useHistory, useParams } from "react-router-dom";
 
-import ConfirmationAlertSlide from "../ConfirmationAlertSlide";
 import DisplayImage from "./DisplayImage.js";
 import HeartRating from "../components/HeartRating.js";
 import Select from "react-select";
@@ -172,7 +171,7 @@ export default function EditRecipe() {
 
   useEffect(() => {
     axios
-      .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/${id}`)
+      .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${id}`)
       .then((response) => {
         const recipe = {
           id: id,
@@ -345,7 +344,7 @@ export default function EditRecipe() {
     e.preventDefault();
     axios
       .delete(
-        `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/delete/${id}`,
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/delete/${id}`,
         currentRecipe
       )
       .then((res) => {

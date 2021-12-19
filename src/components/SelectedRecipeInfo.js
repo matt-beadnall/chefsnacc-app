@@ -60,6 +60,7 @@ export default function SelectedRecipeInfo(props) {
     });
 
     var recipeIngredients = [];
+    // eslint-disable-next-line
     let matchedIngredients = 0;
 
     recipe.ingredients.forEach((ingredient) => {

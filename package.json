@@ -20,6 +20,7 @@
     "date-fns": "^2.21.3",
     "deep-diff": "^1.0.2",
     "emoji-picker-react": "^3.4.2",
+    "env-cmd": "^10.0.1",
     "form-data": "^2.3.3",
     "framer-motion": "^4.1.17",
     "immutability-helper": "^3.1.1",
@@ -35,7 +36,7 @@
     "react-countdown-circle-timer": "^2.5.4",
     "react-dom": "^17.0.1",
     "react-image-lightbox": "^5.1.4",
-    "react-images": "*",
+    "react-images": "^1.2.0-beta.7",
     "react-photo-gallery": "^8.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -47,10 +48,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "print-log": "env-cmd node log.js",
+    "start:dev": "env-cmd -f .env.dev npm start"
   },
   "eslintConfig": {
     "extends": [

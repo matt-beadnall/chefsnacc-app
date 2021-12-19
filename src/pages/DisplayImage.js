@@ -56,9 +56,10 @@ export default function DisplayImage({ currentPageId }) {
   };
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_BACKEND_SERVER)
     axios
       .get(
-        `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/gallery`
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery`
       )
       .then((res) => {
         let pictureArray = [];

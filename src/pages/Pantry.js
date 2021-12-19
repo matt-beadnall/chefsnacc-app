@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-// import CollapsibleTable from "./CollapsibleTable"
-import axios from "axios";
 import {
   Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
+  DialogTitle,
   TextField,
-  DialogActions,
 } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 
+// import CollapsibleTable from "./CollapsibleTable"
+import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   contents: {
@@ -118,7 +118,7 @@ const CreateIngredient = ({ updateIngredients }) => {
     newIngredient.unit = unit;
     console.log(newIngredient);
     axios
-      .post(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/add`, newIngredient)
+      .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/add`, newIngredient)
       .then((res) => {
         console.log(res.data);
         window.location.reload();

@@ -76,7 +76,7 @@ export default function RecipesList() {
 
   useEffect(() => {
     axios
-      .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/`)
+      .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/`)
       .then((response) => {
         setRecipes(response.data);
       })
@@ -84,7 +84,7 @@ export default function RecipesList() {
         console.log(error);
       });
     axios
-      .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/`)
+      .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/`)
       .then((response) => {
         setIngredients(response.data);
       })
