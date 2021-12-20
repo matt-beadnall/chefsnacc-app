@@ -1,6 +1,4 @@
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import React, { useState } from "react";
@@ -21,6 +19,7 @@ import Profile from "./components/Profile";
 import RecipeList from "./pages/RecipeList/RecipeList";
 import Register from "./components/Register";
 import SideBar from "./components/SideBar";
+import styled from "styled-components";
 
 const theme = createMuiTheme({
   palette: {
@@ -38,9 +37,21 @@ const theme = createMuiTheme({
 function App() {
   const [openSidebar, setOpenSidebar] = useState(false);
 
+  const AppContainer = styled.div`
+    background: #fcfcfc;
+`
+
+  const Content = styled.main`
+    width:80vw;
+    margin:auto;
+    @media (max-width: 700px) {
+      width:95vw;
+  }
+  `
+
   return (
     // <HostContext.Provider value="192.168.1.161">
-    <div id="App">
+    <AppContainer id="App">
       <ThemeProvider theme={theme}>
         <SideBar
           onOpen={() => setOpenSidebar(!openSidebar)}
@@ -51,7 +62,7 @@ function App() {
         />
         <main id="page-wrap">
           <NavBar setOpenSidebar={setOpenSidebar} isOpen={openSidebar} />
-          <div className="container mt-3">
+          <Content>
             <Switch>
               <Route exact path={["/"]} component={Home} />
               <Route exact path="/login" component={Login} />
@@ -67,10 +78,10 @@ function App() {
               <Route path="/letscook/:id" component={LetsCook} />
             </Switch>
             {/* </BrowserRouter> */}
-          </div>
+          </Content>
         </main>
       </ThemeProvider>
-    </div>
+    </AppContainer>
   );
 }
 

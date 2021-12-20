@@ -2,21 +2,23 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+/* @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"); */
+/* @import url("https://fonts.googleapis.com/icon?family=Material+Icons"); */
+
+@import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+
 
 :root {
   --blue: #ddd;
   --chefsnacc-pink: #f351d0;
-    color:rgb(255, 255, 255);
-    height:100%;
-  }
+  color: rgb(255, 255, 255);
+  height: 100%;
+}
 
-body{
-    background-color: rgb(153, 89, 89);
-    color: #f351d0;
-    /* font-family: 'Josefin Sans', cursive; */
-
+body {
+  /* background-color: rgb(153, 89, 89); */
+  font-family: 'Bitter';
+  color: #444;
 }
 
 .selected:hover {
@@ -111,7 +113,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* General sidebar styles */
 .bm-menu {
-  background: rgba(55, 58, 71,0.95);
+  background: rgba(55, 58, 71, 0.95);
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }

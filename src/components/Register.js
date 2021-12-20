@@ -1,10 +1,13 @@
-import React, { useState, useRef } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
+import { Button, LightButton } from "./common.jsx"
+import React, { useRef, useState } from "react";
 
 import AuthService from "../services/auth.service";
+import CheckButton from "react-validation/build/button";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import { Link } from "react-router-dom";
+import { isEmail } from "validator";
+import logo from "../images/chefsnacc-magenta.svg";
 
 const required = (value) => {
   if (!value) {
@@ -56,6 +59,8 @@ const Register = (props) => {
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
+
+
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
@@ -103,12 +108,7 @@ const Register = (props) => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
-
+        <h1>Register</h1>
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
@@ -149,7 +149,7 @@ const Register = (props) => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <Button>Sign Up</Button>
               </div>
             </div>
           )}
@@ -164,8 +164,8 @@ const Register = (props) => {
               </div>
             </div>
           )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
+        <Link to="/login"><LightButton>Sign In</LightButton></Link>
       </div>
     </div>
   );

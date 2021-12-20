@@ -25,18 +25,12 @@ import axios from "axios";
 // `;
 
 const useStyles = makeStyles((theme) => ({
-  sort_button: {
-    height: "40px",
-    top: "50%",
-  },
-  list_content: {
-    backgroundColor: "light grey",
-  },
+
   header: {
     padding: "15px",
     borderRadius: "0px",
     verticalAlign: "middle",
-    width: "80vw",
+    width: "100%",
     margin: "auto",
     zIndex: 0,
   },
@@ -54,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr 1fr",
-    width: "80vw",
+    width: "100%",
     margin: "auto",
   },
   control_group: {
@@ -151,7 +145,7 @@ export default function RecipesList() {
 
   return (
     <>
-      <div className={classes.list_content}>
+      <div>
           <div className={classes.header}>
             <div className={classes.control_group}>
               <CreateRecipe />

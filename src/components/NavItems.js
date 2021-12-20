@@ -23,10 +23,12 @@ export default function NavItems({column}) {
     AuthService.logout();
   };
 
-  const ItemsList = styled.div`
+  const ItemsList = styled.ul`
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    list-style-type: none;
+    align-items: center;
+    text-decoration: none;
     ${props =>
       props.column &&
       css`
@@ -34,45 +36,54 @@ export default function NavItems({column}) {
       `}
   `;
 
+const ListItem = styled.li`
+`
+
+const StyledLink = styled(Link)`
+  color: #444444;
+  text-decoration: none;
+  margin: 1rem;
+  position: relative;
+`;
+
+
   return (
     <ItemsList column={column}>
-      <div className="navbar-nav mr-auto">
         {showModeratorBoard && (
-          <li className="nav-link">
-            <Link to={"/mod"} className="nav-link">
+          <ListItem>
+            <StyledLink to={"/mod"} >
               Moderator Board
-            </Link>
-          </li>
+            </StyledLink>
+          </ListItem>
         )}
         {showAdminBoard && (
-          <li className="nav-link">
-            <Link to={"/admin"} className="nav-link">
+          <ListItem>
+            <StyledLink to={"/admin"} >
               Admin Board
-            </Link>
-          </li>
+            </StyledLink>
+          </ListItem>
         )}
         {currentUser && (
-          <li className="nav-link">
-            <Link to={"/user"} className="nav-link">
+          <ListItem >
+            <StyledLink to={"/user"} >
               Recipes
-            </Link>
-          </li>
+            </StyledLink>
+          </ListItem>
         )}
         {currentUser &&(
-        <li className="nav-link">
-          <Link to="/gallery" className="nav-link">
+        <ListItem>
+          <StyledLink to="/gallery">
             Gallery
-          </Link>
-        </li>)}
+          </StyledLink>
+        </ListItem>)}
         {currentUser &&(
-        <li className="nav-link">
-          <Link to="/pantry" className="nav-link">
+        <li>
+          <StyledLink to="/pantry" >
             Pantry
-          </Link>
+          </StyledLink>
         </li>)}
-      </div>
 
-      {currentUser ? (
+      {/* {currentUser ? (
         <div className="navbar-nav ml-auto">
           <li className="nav-item">
             <Link to={"/profile"} className="nav-link">
@@ -99,7 +110,7 @@ export default function NavItems({column}) {
             </Link>
           </li>
         </div>
-      )}
+      )} */}
     </ItemsList>
   );
 }
