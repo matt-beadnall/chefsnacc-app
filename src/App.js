@@ -52,6 +52,8 @@ function App() {
   `;
 
   const PageContent = styled.section`
+    overflow: scroll; 
+    height:100vh;
     /* margin: 10px 10px 0px 20px; */
   `
 
@@ -62,7 +64,6 @@ function App() {
         <main>
           <SiteContent>
             <SideBar />
-            {/* <GridContent> */}
             <PageContent>
               <Switch>
                 <Route exact path={["/"]} component={Home} />

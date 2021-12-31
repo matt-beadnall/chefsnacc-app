@@ -55,14 +55,15 @@ code {
 }
 
 .modal {
-  width: clamp(60%, 1000px, 90%);
-  height: min(60%, 800px);
+  width: clamp(70%, 1000px, 90%);
+  height: min(70%, 800px);
   margin: auto;
   padding: 0 2rem;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
 }
 
 :root {

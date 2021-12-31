@@ -38,7 +38,12 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: "3fr 2fr",
     /* border: 1.5px solid var(--chefsnacc-pink); */
   },
-  grid_items: {},
+  grid_items: {
+    margin:"10px",
+    padding:"20px",
+        backgroundColor: "white",
+
+  },
   button_group: {
     [theme.breakpoints.down("sm")]: {
       display: "flex",
@@ -50,12 +55,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: "85vw",
     },
-    width: "80vw",
+    width: "100%",
     margin: "auto",
-    marginTop: "10px",
     padding: "20px",
     borderRadius: "0px",
-    backgroundColor: "white",
+    // backgroundColor: "white",
     // boxShadow: "0px 0px 14px rgb(182, 182, 182)",
   },
   recipe_field: {
@@ -121,9 +125,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditRecipe() {
+export default function EditRecipe({ recipeIdentifier }) {
   const classes = useStyles();
-
 
   const INITIAL = {
     id: "",
@@ -170,8 +173,11 @@ export default function EditRecipe() {
   // };
 
   useEffect(() => {
+    const recipeId = recipeIdentifier === undefined ? id : recipeIdentifier;
     axios
-      .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${id}`)
+      .get(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${recipeId}`
+      )
       .then((response) => {
         setCurrentRecipe(response.data);
         setOriginalRecipe(response.data);
@@ -371,9 +377,11 @@ export default function EditRecipe() {
               chef: modifiedRecipe.chef,
               description: modifiedRecipe.description,
               version: targetVersion,
-              ingredients: modifiedRecipe.ingredients.slice().filter((ingredient) => {
-                return ingredient.amount !== 0;
-              }),
+              ingredients: modifiedRecipe.ingredients
+                .slice()
+                .filter((ingredient) => {
+                  return ingredient.amount !== 0;
+                }),
               method: modifiedRecipe.method,
               hidden: modifiedRecipe.hidden,
               rating: modifiedRecipe.rating,
@@ -408,219 +416,215 @@ export default function EditRecipe() {
               description: modifiedRecipe.description,
               version: targetVersion,
               // remove blank lines
-              ingredients: modifiedRecipe.ingredients.slice().filter((ingredient) => {
-                return ingredient.amount !== 0 && ingredient.amount !== 'g';
-              }),
+              ingredients: modifiedRecipe.ingredients
+                .slice()
+                .filter((ingredient) => {
+                  return ingredient.amount !== 0 && ingredient.amount !== "g";
+                }),
               method: modifiedRecipe.method,
               hidden: modifiedRecipe.hidden,
             });
           });
         });
     }
-
   };
 
   return (
-    <>
-      <div className={classes.contents}>
-        <div className={classes.header}>
-          <div style={{ position: "relative" }}>
-            {readOnly ? null : <h3 className={classes.edit_mode}>EDIT MODE</h3>}
-            {/* <Paper className={classes.header_image_box}>
-            <img className={classes.header_image} src={hummus} />
-          </Paper> */}
-            <h1>{currentRecipe.name}</h1>
-            <Select options={options} />
-          </div>
-          <div>
-            <Button
-              className={(classes.edit_mode_button, classes.sidebar_item)}
-              variant="outlined"
-              color="primary"
-              value="Cancel"
-              onClick={changeEditMode}
-            >
-              <img className={classes.edit} src={edit} alt="edit icon" />
-            </Button>
-          </div>
+    <div className={classes.contents}>
+      <div className={classes.header}>
+        <div style={{ position: "relative" }}>
+          {readOnly ? null : <h3 className={classes.edit_mode}>EDIT MODE</h3>}
+          <h1>{currentRecipe.name}</h1>
+          <Select options={options} />
         </div>
-        <div className={classes.grid_container}>
-          <div className={classes.grid_items}>
-            <form className={classes.form_group} onSubmit={onSubmit}>
-              <TextField
-                label="name"
-                type="text"
-                className={classes.form_control}
-                value={currentRecipe.name}
-                onChange={(event) => onChangeRecipe(event, "name")}
-                inputprops={{ readOnly: readOnly }}
-              />
-              <TextField
-                label="chef"
-                type="text"
-                className={classes.form_control}
-                value={currentRecipe.chef}
-                onChange={(event) => onChangeRecipe(event, "chef")}
-                inputprops={{ readOnly: readOnly }}
-              />
-              <TextField
-                label="description"
-                type="text"
-                className={classes.form_control}
-                value={currentRecipe.description}
-                onChange={(event) => onChangeRecipe(event, "description")}
-                inputprops={{ readOnly: readOnly }}
-              />
-              <TextField
-                label="version"
-                type="text"
-                className={classes.form_control}
-                value={currentRecipe.version}
-                onChange={(event) => onChangeRecipe(event, "version")}
-                inputprops={{ readOnly: readOnly }}
-              />
+        <div>
+          <Button
+            className={(classes.edit_mode_button, classes.sidebar_item)}
+            variant="outlined"
+            color="primary"
+            value="Cancel"
+            onClick={changeEditMode}
+          >
+            <img className={classes.edit} src={edit} alt="edit icon" />
+          </Button>
+        </div>
+      </div>
+      <div className={classes.grid_container}>
+        <div className={classes.grid_items}>
+          <form className={classes.form_group} onSubmit={onSubmit}>
+            <TextField
+              label="name"
+              type="text"
+              className={classes.form_control}
+              value={currentRecipe.name}
+              onChange={(event) => onChangeRecipe(event, "name")}
+              inputprops={{ readOnly: readOnly }}
+            />
+            <TextField
+              label="chef"
+              type="text"
+              className={classes.form_control}
+              value={currentRecipe.chef}
+              onChange={(event) => onChangeRecipe(event, "chef")}
+              inputprops={{ readOnly: readOnly }}
+            />
+            <TextField
+              label="description"
+              type="text"
+              className={classes.form_control}
+              value={currentRecipe.description}
+              onChange={(event) => onChangeRecipe(event, "description")}
+              inputprops={{ readOnly: readOnly }}
+            />
+            <TextField
+              label="version"
+              type="text"
+              className={classes.form_control}
+              value={currentRecipe.version}
+              onChange={(event) => onChangeRecipe(event, "version")}
+              inputprops={{ readOnly: readOnly }}
+            />
 
-              <div style={{ display: "flex", marginTop: "20px" }}>
-                <h3>Ingredients</h3>
-                <Button
-                  style={{ marginLeft: "10px" }}
-                  variant="outlined"
-                  onClick={handleIngredientVisibility}
-                >
-                  {showIngredients ? "collapse" : "expand"}
-                </Button>
-              </div>
-              {showIngredients ? IngredientForm() : null}
-              <div style={{ display: "flex", marginTop: "20px" }}>
-                <h3>Method</h3>
-                <Button
-                  style={{ marginLeft: "10px" }}
-                  variant="outlined"
-                  onClick={handleMethodVisibility}
-                >
-                  {showMethod ? "collapse" : "expand"}
-                </Button>
-              </div>
-              {/* <MethodForm syle={{display: showMethod ? "block" : "none"}} */}
-              {showMethod ? MethodForm() : null}
-              <div>
-                <h3>Rating</h3>
-                <HeartRating
-                  rating={currentRecipe.rating}
-                  onChange={onChangeRecipe}
-                />
-              </div>
-              <div className={classes.form_group}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="Archived"
-                      checked={currentRecipe.hidden}
-                      id="hidden"
-                      className="btn btn-primary"
-                      onChange={(event) => onChangeRecipe(event, "hidden")}
-                    />
-                  }
-                  label="Archived"
-                />
-              </div>
-              <h2>History</h2>
-              <table className="table table-striped table-hover">
-                <thead className="thead-dark">
-                  <tr>
-                    <th scope="col"> </th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Version</th>
-                    <th scope="col">Changes</th>
-                    <th scope="col">Selected</th>
-                  </tr>
-                </thead>
-                {currentRecipe.changes
-                  .slice(0)
-                  .reverse()
-                  .map((changeHeader, i) => {
-                    return (
-                      <tbody key={i}>
-                        <tr>
-                          <th scope="row">
-                            <button
-                              onClick={(event) =>
-                                revertToVersion(event, changeHeader)
-                              }
-                            >
-                              Select
-                            </button>
-                          </th>
-                          <td>{changeHeader.date_changed}</td>
-                          <td>{changeHeader.version}</td>
-                          <td>
-                            {changeHeader.changes.length}
-                            {/* {changeHeader.changes.map((change, i) => {
+            <div style={{ display: "flex", marginTop: "20px" }}>
+              <h3>Ingredients</h3>
+              <Button
+                style={{ marginLeft: "10px" }}
+                variant="outlined"
+                onClick={handleIngredientVisibility}
+              >
+                {showIngredients ? "collapse" : "expand"}
+              </Button>
+            </div>
+            {showIngredients ? IngredientForm() : null}
+            <div style={{ display: "flex", marginTop: "20px" }}>
+              <h3>Method</h3>
+              <Button
+                style={{ marginLeft: "10px" }}
+                variant="outlined"
+                onClick={handleMethodVisibility}
+              >
+                {showMethod ? "collapse" : "expand"}
+              </Button>
+            </div>
+            {/* <MethodForm syle={{display: showMethod ? "block" : "none"}} */}
+            {showMethod ? MethodForm() : null}
+            <div>
+              <h3>Rating</h3>
+              <HeartRating
+                rating={currentRecipe.rating}
+                onChange={onChangeRecipe}
+              />
+            </div>
+            <div className={classes.form_group}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="Archived"
+                    checked={currentRecipe.hidden}
+                    id="hidden"
+                    className="btn btn-primary"
+                    onChange={(event) => onChangeRecipe(event, "hidden")}
+                  />
+                }
+                label="Archived"
+              />
+            </div>
+            <h2>History</h2>
+            <table className="table table-striped table-hover">
+              <thead className="thead-dark">
+                <tr>
+                  <th scope="col"> </th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Version</th>
+                  <th scope="col">Changes</th>
+                  <th scope="col">Selected</th>
+                </tr>
+              </thead>
+              {currentRecipe.changes
+                .slice(0)
+                .reverse()
+                .map((changeHeader, i) => {
+                  return (
+                    <tbody key={i}>
+                      <tr>
+                        <th scope="row">
+                          <button
+                            onClick={(event) =>
+                              revertToVersion(event, changeHeader)
+                            }
+                          >
+                            Select
+                          </button>
+                        </th>
+                        <td>{changeHeader.date_changed}</td>
+                        <td>{changeHeader.version}</td>
+                        <td>
+                          {changeHeader.changes.length}
+                          {/* {changeHeader.changes.map((change, i) => {
                             return <p>{change.path}</p>;
                           })} */}
-                          </td>
-                          <td>
-                            {currentRecipe.version === changeHeader.version
-                              ? "*"
-                              : ""}
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-              </table>
-              <div className={classes.button_group}>
-                <Button
-                  className={classes.submit_button}
-                  type="submit"
-                  variant="outlined"
-                  color="primary"
-                  value="Update Recipe"
-                  disabled={changes === undefined ? true : false}
-                >
-                  Save
-                </Button>
-                <Button
-                  className={classes.submit_button}
-                  // type="submit"
-                  variant="outlined"
-                  color="primary"
-                  value="Cancel"
-                  onClick={doCancel}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  className={classes.submit_button}
-                  // type="submit"
-                  variant="outlined"
-                  color="secondary"
-                  value="Delete Recipe"
-                  onClick={deleteRecipe}
-                >
-                  Delete
-                </Button>
-              </div>
-            </form>
+                        </td>
+                        <td>
+                          {currentRecipe.version === changeHeader.version
+                            ? "*"
+                            : ""}
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
+            </table>
+            <div className={classes.button_group}>
+              <Button
+                className={classes.submit_button}
+                type="submit"
+                variant="outlined"
+                color="primary"
+                value="Update Recipe"
+                disabled={changes === undefined ? true : false}
+              >
+                Save
+              </Button>
+              <Button
+                className={classes.submit_button}
+                // type="submit"
+                variant="outlined"
+                color="primary"
+                value="Cancel"
+                onClick={doCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                className={classes.submit_button}
+                // type="submit"
+                variant="outlined"
+                color="secondary"
+                value="Delete Recipe"
+                onClick={deleteRecipe}
+              >
+                Delete
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className={classes.grid_items}>
+          <div className={classes.sidebar_item}>
+            <h2>Nutrition</h2>
+            <p>Estimated nutrition:</p>
           </div>
-          <div className={classes.grid_items}>
-            <div className={classes.sidebar_item}>
-              <h2>Nutrition</h2>
-              <p>Estimated nutrition:</p>
-            </div>
-            <div className={classes.sidebar_item}>
-              <h2>Pictures</h2>
-              <UploadImage
-                recipeName={currentRecipe.name}
-                recipeId={currentRecipe.id}
-                recipeDescription={currentRecipe.description}
-              />
-              <Gallery currentPageId={currentRecipe.id} />
-            </div>
+          <div className={classes.sidebar_item}>
+            <h2>Pictures</h2>
+            <UploadImage
+              recipeName={currentRecipe.name}
+              recipeId={currentRecipe.id}
+              recipeDescription={currentRecipe.description}
+            />
+            {/* <Gallery currentPageId={currentRecipe.id} /> */}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 
   function MethodForm() {

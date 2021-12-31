@@ -88,7 +88,6 @@ export default function SideBar(props) {
   `;
 
   const SideBarArea = styled.div`
-    /* overflow:hidden; */
     ${(props) => {
       if (props.animationsArmed) {
         return props.collapsed

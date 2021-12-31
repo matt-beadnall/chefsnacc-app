@@ -122,7 +122,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
               >
                 {modalOpen && (
                   <RecipeModal modalOpen={modalOpen} handleClose={close} recipe={selectedRecipe}>
-                    {/* <EditRecipe/> */}
+                    <EditRecipe recipeIdentifier={selectedRecipe._id}/>
                   </RecipeModal>
                 )}
               </AnimatePresence>
@@ -138,7 +138,7 @@ const ControlsGroup = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background: coral;
+  /* background: coral; */
 `;
 
 const RecipesHeader = styled.div`
@@ -148,7 +148,7 @@ const RecipesHeader = styled.div`
 `;
 
 const DescriptionLine = styled.div`
-  background: cyan;
+  /* background: cyan; */
   text-align: center;
   /* visibility: ${(props) => (props.collapsed ? "hidden" : "visible")}; */
   /* transition: visibility 0.3s linear; */
