@@ -2,12 +2,11 @@ import { Button, LightButton } from "./common.jsx"
 import React, { useRef, useState } from "react";
 
 import AuthService from "../services/auth.service";
-import CheckButton from "react-validation/build/button";
+// import CheckButton from "react-validation/build/button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { Link } from "react-router-dom";
 import { isEmail } from "validator";
-import logo from "../images/chefsnacc-magenta.svg";
 
 const required = (value) => {
   if (!value) {

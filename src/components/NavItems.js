@@ -1,5 +1,5 @@
+import { ItemsList, ListItem, StyledLink } from "../styled/CommonStyledComponents"
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
 
 import AuthService from "../services/auth.service";
 import { Link } from "react-router-dom";
@@ -23,29 +23,6 @@ export default function NavItems({column}) {
     AuthService.logout();
   };
 
-  const ItemsList = styled.ul`
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-    align-items: center;
-    text-decoration: none;
-    ${props =>
-      props.column &&
-      css`
-        flex-direction: column;
-      `}
-  `;
-
-const ListItem = styled.li`
-`
-
-const StyledLink = styled(Link)`
-  color: #444444;
-  text-decoration: none;
-  margin: 1rem;
-  position: relative;
-`;
-
 
   return (
     <ItemsList column={column}>
@@ -63,31 +40,25 @@ const StyledLink = styled(Link)`
             </StyledLink>
           </ListItem>
         )}
-        {currentUser && (
-          <ListItem >
-            <StyledLink to={"/user"} >
-              Recipes
-            </StyledLink>
-          </ListItem>
-        )}
-        {currentUser &&(
-        <ListItem>
-          <StyledLink to="/gallery">
-            Gallery
-          </StyledLink>
-        </ListItem>)}
         {currentUser &&(
         <li>
-          <StyledLink to="/pantry" >
-            Pantry
+          <StyledLink to="/about" >
+            About
+          </StyledLink>
+        </li>)}
+        {currentUser &&(
+        <li>
+          <StyledLink to="/contact" >
+            Contact
           </StyledLink>
         </li>)}
 
-      {/* {currentUser ? (
+      {currentUser ? (
         <div className="navbar-nav ml-auto">
           <li className="nav-item">
             <Link to={"/profile"} className="nav-link">
-              {currentUser.username}
+            Profile
+              {/* {currentUser.username} */}
             </Link>
           </li>
           <li className="nav-item">
@@ -110,7 +81,7 @@ const StyledLink = styled(Link)`
             </Link>
           </li>
         </div>
-      )} */}
+      )}
     </ItemsList>
   );
 }

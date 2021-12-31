@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-export default function CreateRecipe() {
+export default function CreateRecipeMenu() {
 
   const CREATE_RECIPE_BUTTON = "New Recipe +";
 
@@ -45,7 +45,7 @@ export default function CreateRecipe() {
     let newRecipe = blankRecipe;
     newRecipe.name = name;
     axios
-      .post(`http://${process.env.REACT_APP_REACT_APP_REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/add`, newRecipe)
+      .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/add`, newRecipe)
       .then((res) => {
         history.push("/edit/" + res.data.newRecipe._id);
       });

@@ -1,23 +1,19 @@
 import Carousel, { Modal, ModalGateway } from "react-images";
 import React, { useCallback, useEffect, useState } from "react";
 
-import Gallery from "react-photo-gallery";
 import GridLoader from "react-spinners/GridLoader";
+import PhotoGallery from "react-photo-gallery";
 import axios from "axios";
 import { css } from "@emotion/react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
 const override = css`
-   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  ${'' /* transform: translateX(-50%); */}
-  ${'' /* transform: translateX(-50%); */}
+  position: relative;
+  margin: auto;
 `;
 
-export default function DisplayImage({ currentPageId }) {
+export default function Gallery({ currentPageId }) {
   const [pictures, setPictures] = useState([]);
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -56,7 +52,7 @@ export default function DisplayImage({ currentPageId }) {
   };
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_BACKEND_SERVER)
+    console.log(process.env.REACT_APP_BACKEND_SERVER);
     axios
       .get(
         `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery`
@@ -99,33 +95,33 @@ export default function DisplayImage({ currentPageId }) {
 
   return (
     <div>
-      {console.log(pictures.length === 0)}
-      {pictures.length === 0 ? (
-        <GridLoader
-          color={"#ededed"}
-          loading={loading}
-          css={override}
-          size={30}
-        />
-      ) : (
-        <GalleryContainer>
-          <Gallery photos={pictures} onClick={openLightbox} />
-        </GalleryContainer>
-      )}
-      <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={pictures.map((x) => ({
-                ...x,
-                srcset: x.srcSet,
-                caption: x.title,
-              }))}
-            />
-          </Modal>
-        ) : null}
-      </ModalGateway>
+        {console.log(pictures.length === 0)}
+        {pictures.length === 0 ? (
+          <GridLoader
+            color={"#ededed"}
+            loading={loading}
+            css={override}
+            size={30}
+          />
+        ) : (
+          <GalleryContainer>
+            <PhotoGallery photos={pictures} onClick={openLightbox} />
+          </GalleryContainer>
+        )}
+        <ModalGateway>
+          {viewerIsOpen ? (
+            <Modal onClose={closeLightbox}>
+              <Carousel
+                currentIndex={currentImage}
+                views={pictures.map((x) => ({
+                  ...x,
+                  srcset: x.srcSet,
+                  caption: x.title,
+                }))}
+              />
+            </Modal>
+          ) : null}
+        </ModalGateway>
     </div>
   );
 }

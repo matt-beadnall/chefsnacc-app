@@ -11,7 +11,9 @@ import React, { useEffect, useState } from "react";
 
 // import CollapsibleTable from "./CollapsibleTable"
 import axios from "axios";
+import { formatDate } from "../functions/dateFunctions";
 import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
   contents: {
@@ -20,19 +22,18 @@ const useStyles = makeStyles((theme) => ({
     },
     width: "80vw",
     margin: "auto",
-    marginTop: "10px",
-    padding: "20px",
-    borderRadius: "20px",
-    backgroundColor: "white",
-    boxShadow: "0px 0px 14px rgb(182, 182, 182)",
+    // marginTop: "10px",
+    // padding: "20px",
+    // borderRadius: "20px",
+    // backgroundColor: "white",
+    // boxShadow: "0px 0px 14px rgb(182, 182, 182)",
     /* border: 1.5px solid var(--chefsnacc-pink); */
   },
   ingredientBox: {
     display: "flex",
     height: "40px",
-    verticalAlign: "middle",
+    alignItems: "center",
     textAlign: "center",
-    backgroundColor: "#ebebeb",
     margin: "20px",
   },
   delete: {
@@ -40,101 +41,217 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const IngredientList = ({ ingredients, setIngredients }) => {
-  const classes = useStyles();
-  console.log("3. ingredients");
+const IngredientList = () => {
+  const [ingredients, setIngredients] = useState([]);
+  const [visible, setVisible] = useState(null);
+
   console.log(ingredients);
+  useEffect(() => {
+    axios
+      .get(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/`
+      )
+      .then((res) => {
+        setIngredients(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  const classes = useStyles();
 
   const handleClick = (id, e) => {
     console.log(id);
     axios
-      .delete(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/delete/${id}`)
+      .delete(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/delete/${id}`
+      )
       .then((res) => {
         console.log(res.data);
         window.location.reload();
       });
   };
 
+  const setHistoryVisibilty = (i) => {
+    if (i === visible) {
+      setVisible(null);
+    } else {
+      setVisible(i);
+    }
+  };
+
+  const HistoryRow = styled.td`
+    col-span: 4;
+  `;
+
   return (
     <div className={classes.contents}>
-      <CreateIngredient updateIngredients={setIngredients} />
-      {ingredients.map((ingredient, i) => {
-        return (
-          <div key={i} className={classes.ingredientBox}>
-            <h3>{ingredient.name}</h3>
-            <Button
-              className={classes.delete}
-              onClick={(e) => handleClick(ingredient._id, e)}
-              variant="outlined"
-              color="primary"
-              label="delete"
-            >
-              delete
-            </Button>
-          </div>
-        );
-      })}
+      <CreateIngredient
+        setIngredients={setIngredients}
+        ingredients={ingredients}
+      />
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Ingredient</th>
+            <th>Total Quanity</th>
+            <th>Unit</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {ingredients.map((ingredient, i) => {
+            return (
+              <>
+                <tr key={i}>
+                  <td>
+                    <button onClick={() => setHistoryVisibilty(i)}>show</button>
+                  </td>
+                  <td>{ingredient.name}</td>
+                  <td>{ingredient.history[0].quantity}</td>
+                  <td>{ingredient.history[0].unit}</td>
+                  <td>
+                    <Button
+                      className={classes.delete}
+                      onClick={(e) => handleClick(ingredient._id, e)}
+                      variant="outlined"
+                      color="primary"
+                      label="delete"
+                    >
+                      delete
+                    </Button>
+                  </td>
+                  <td></td>
+                </tr>
+
+                {visible === i && (
+                  <tr>
+                    <td colSpan="4">
+                      <p>History</p>
+                      <table>
+                        <tr>
+                          <th>Date Bought</th>
+                          <th>Quantity</th>
+                          <th>Unit</th>
+                          <th>Date Use-by</th>
+                        </tr>
+                        <tr>
+                          <td>
+                            {formatDate(ingredient.history[0].date_bought)}
+                          </td>
+                          <td>{ingredient.history[0].quantity}</td>
+                          <td>{ingredient.history[0].unit}</td>
+                          <td>
+                            {formatDate(ingredient.history[0].date_useby)}
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                )}
+              </>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-const CreateIngredient = ({ updateIngredients }) => {
+const CreateIngredient = ({ setIngredients, ingredients }) => {
+  const CicleButton = styled.button`
+    display: block;
+    border-radius: 50%;
+    font-size: 25pt;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    cursor: pointer;
+    /* border: solid 1px #444444 */
+
+    border-style: none;
+  `;
+
   const emptyIngredient = {
     name: "",
     description: "",
-    quantity: 0,
-    unit: "",
-    date_bought: new Date(),
-    date_useby: new Date(),
+    category: "",
+    nutrition: {
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0,
+    },
+    history: [
+      {
+        date_added: new Date(),
+        date_bought: new Date(),
+        date_useby: new Date(),
+        sub_variety: "String",
+        quantity: 0,
+        unit: "g",
+        price: 0,
+      },
+    ],
     variety: "",
+    allergies: [],
     notes: "",
   };
 
-  const [ingredient, setIngredient] = useState("");
-  const [unit, setUnit] = useState(0);
-  const [amount, setAmount] = useState("");
+  const [ingredient, setIngredient] = useState(emptyIngredient);
   const [open, setOpen] = useState(false);
 
   const handleChange = (e) => {
+    e.preventDefault();
+    var ingredientKey;
+    var valueToSet;
     switch (e.target.id) {
-      case "name":
-        setIngredient(e.target.value);
-        break;
-      case "amount":
-        setAmount(e.target.value);
-        break;
+      case "quantity":
       case "unit":
-        setUnit(e.target.value);
+        valueToSet = {
+          ...ingredient.history,
+          [e.target.id]: e.target.value,
+        };
+        ingredientKey = "history";
         break;
       default:
-        console.log("invalid");
+        ingredientKey = e.target.id;
+        valueToSet = e.target.value;
     }
+    console.log(ingredientKey);
+    console.log(valueToSet);
+    setIngredient({
+      ...ingredient,
+      [ingredientKey]: valueToSet,
+    });
   };
 
   const handleCreate = (e) => {
-    let newIngredient = emptyIngredient;
-    newIngredient.name = ingredient;
-    newIngredient.amount = amount;
-    newIngredient.unit = unit;
-    console.log(newIngredient);
+    console.log(ingredient);
     axios
-      .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/add`, newIngredient)
+      .post(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/add`,
+        ingredient
+      )
       .then((res) => {
-        console.log(res.data);
-        window.location.reload();
+        // console.log(res.data);
+        console.log(ingredients.concat(ingredient));
+        setIngredients(ingredients.concat(ingredient));
+        // window.location.reload();
       });
     setOpen(false);
     // updateIngredients({..., newIngredient});
-    setIngredient("");
-    setAmount(0);
-    setUnit("");
+  };
+
+  const cancelButton = () => {
+    setOpen(false);
+    setIngredient(emptyIngredient);
   };
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} color="primary" variant="outlined">
-        Add an Ingredient
-      </Button>
+      <CicleButton onClick={() => setOpen(true)}>+</CicleButton>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
@@ -142,15 +259,52 @@ const CreateIngredient = ({ updateIngredients }) => {
       >
         <DialogTitle id="form-dialog-title">New Ingredient</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Enter Ingredient Information
-          </DialogContentText>
-          <TextField autoFocus margin="dense" id="name" label="Ingredient name" onChange={handleChange} value={ingredient} type="text" fullWidth/>
-          <TextField autoFocus margin="dense" id="amount" label="Amount" onChange={handleChange} value={amount} type="text" fullWidth/>
-          <TextField autoFocus margin="dense" id="unit" label="Unit" onChange={handleChange} value={unit} type="text" fullWidth/>
+          <DialogContentText>Enter Ingredient Information</DialogContentText>
+          <TextField
+            autoFocus
+            id="name"
+            label="Ingredient name"
+            onChange={handleChange}
+            value={ingredient.name}
+            type="text"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            id="quantity"
+            label="Amount"
+            onChange={handleChange}
+            value={ingredient.quantity}
+            type="text"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            id="unit"
+            label="Unit"
+            onChange={handleChange}
+            value={ingredient.unit}
+            type="text"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            id="date_bought"
+            label="Date bought"
+            onChange={handleChange}
+            value={formatDate(ingredient.date_bought)}
+            type="text"
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
+          <Button
+            onClick={() => setIngredient(emptyIngredient)}
+            color="primary"
+          >
+            Clear
+          </Button>
+          <Button onClick={cancelButton} color="primary">
             Cancel
           </Button>
           <Button onClick={handleCreate} color="primary">
@@ -163,27 +317,9 @@ const CreateIngredient = ({ updateIngredients }) => {
 };
 
 export default function Pantry() {
-  const [ingredients, setIngredients] = useState([]);
-  console.log("1. ingredients");
-  console.log(ingredients);
-  useEffect(() => {
-    axios
-      .get(`http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/ingredients/`)
-      .then((res) => {
-        setIngredients(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   return (
     <div>
-      {/* <CollapsibleTable ingredients={ingredients}/> */}
-      <IngredientList
-        updateIngredients={setIngredients}
-        ingredients={ingredients}
-      ></IngredientList>
+        <IngredientList />
     </div>
   );
 }

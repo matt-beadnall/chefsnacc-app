@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { applyChange, diff, revertChange } from "deep-diff";
 import { useHistory, useParams } from "react-router-dom";
 
-import DisplayImage from "./DisplayImage.js";
+import Gallery from "./Gallery.js";
 import HeartRating from "../components/HeartRating.js";
 import Select from "react-select";
 import UploadImage from "../components/UploadImage.js";
@@ -54,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     marginTop: "10px",
     padding: "20px",
-    borderRadius: "20px",
+    borderRadius: "0px",
     backgroundColor: "white",
-    boxShadow: "0px 0px 14px rgb(182, 182, 182)",
+    // boxShadow: "0px 0px 14px rgb(182, 182, 182)",
   },
   recipe_field: {
     margin: "5px 0px 5px 0px",
@@ -122,8 +122,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EditRecipe() {
-  // eslint-disable-next-line
   const classes = useStyles();
+
 
   const INITIAL = {
     id: "",
@@ -173,27 +173,8 @@ export default function EditRecipe() {
     axios
       .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${id}`)
       .then((response) => {
-        const recipe = {
-          id: id,
-          name: response.data.name,
-          chef: response.data.chef,
-          description: response.data.description,
-          category: response.data.category,
-          ingredients: response.data.ingredients,
-          method: response.data.method,
-          time: response.data.time,
-          version: response.data.version,
-          pictures: response.data.pictures,
-          emoji: response.data.emoji,
-          rating: response.data.rating,
-          date_added: response.data.date_added,
-          date_modified: response.data.date_modified,
-          changes: response.data.changes,
-          hidden: response.data.hidden,
-          notes: response.data.notes,
-        };
-        setCurrentRecipe(recipe);
-        setOriginalRecipe(recipe);
+        setCurrentRecipe(response.data);
+        setOriginalRecipe(response.data);
         // setHistoricalRecipe(recipe);
       })
       .catch((error) => {
@@ -229,7 +210,7 @@ export default function EditRecipe() {
       if (window.confirm("Please confirm changes")) {
         axios
           .post(
-            `http://chefsnaccbackend-env.eba-unycwpym.eu-west-2.elasticbeanstalk.com/chefsnacc/recipes/update/${id}`,
+            `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/update/${id}`,
             currentRecipe
           )
           .then((res) => {
@@ -634,7 +615,7 @@ export default function EditRecipe() {
                 recipeId={currentRecipe.id}
                 recipeDescription={currentRecipe.description}
               />
-              <DisplayImage currentPageId={currentRecipe.id} />
+              <Gallery currentPageId={currentRecipe.id} />
             </div>
           </div>
         </div>

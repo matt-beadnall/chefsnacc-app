@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import NavItems from "./NavItems";
 import React from "react";
-import burger from "../images/burger.svg";
 import logo from "../images/chefsnacc-dark-grey.svg";
 import styled from "styled-components";
 import title from "../images/chefsnacc-text-grey.svg";
@@ -21,26 +20,6 @@ const TitleText = styled.img`
   margin-left: 10px;
     @media (max-width: 700px) {
       margin-left: 0px;
-  }
-`;
-
-const BurgerIcon = styled.img`
-  height: 28px;
-  margin-right: 15px;
-`;
-
-const BurgerButton = styled.button`
-  right: 10px;
-  position: absolute;
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  @media (min-width: 1000px) {
-    display: none;
   }
 `;
 
@@ -79,9 +58,9 @@ export const NavBar = ({ setOpenSidebar, isOpen }) => {
         <NavItemsContainer>
           <NavItems />
         </NavItemsContainer>
-        <BurgerButton onClick={() => setOpenSidebar(!isOpen)}>
+        {/* <BurgerButton onClick={() => setOpenSidebar(!isOpen)}>
           <BurgerIcon src={burger} alt="burger menu icon" />
-        </BurgerButton>
+        </BurgerButton> */}
       </NavBarContainer>
     </Nav>
   );
