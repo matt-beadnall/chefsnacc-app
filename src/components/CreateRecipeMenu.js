@@ -10,13 +10,13 @@ import {
 import React, { useState } from "react";
 
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateRecipeMenu() {
 
   const CREATE_RECIPE_BUTTON = "New Recipe +";
 
-  const history = useHistory();
+  const history = useNavigate();
   const [name, setName] = useState("");
 
   const blankRecipe = {

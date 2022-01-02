@@ -7,10 +7,11 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import { applyChange, diff, revertChange } from "deep-diff";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Gallery from "./Gallery.js";
 import HeartRating from "../components/HeartRating.js";
+// import { Reorder }  from "framer-motion"
 import Select from "react-select";
 import UploadImage from "../components/UploadImage.js";
 import axios from "axios";
@@ -34,15 +35,21 @@ const options = [
 
 const useStyles = makeStyles((theme) => ({
   grid_container: {
-    display: "grid",
-    gridTemplateColumns: "3fr 2fr",
+    display: "flex",
+    // gridTemplateColumns: "3fr 2fr",
     /* border: 1.5px solid var(--chefsnacc-pink); */
   },
-  grid_items: {
+  main_panel: {
+    width:"60%",
     margin:"10px",
     padding:"20px",
-        backgroundColor: "white",
-
+    backgroundColor: "white",
+  },
+  sidebar: {
+    width:"40%",
+    margin:"10px",
+    padding:"20px",
+    backgroundColor: "white",
   },
   button_group: {
     [theme.breakpoints.down("sm")]: {
@@ -53,14 +60,12 @@ const useStyles = makeStyles((theme) => ({
   },
   contents: {
     [theme.breakpoints.down("sm")]: {
-      width: "85vw",
+      width: "100%",
     },
     width: "100%",
-    margin: "auto",
+    display: "block",
+    // margin: "auto",
     padding: "20px",
-    borderRadius: "0px",
-    // backgroundColor: "white",
-    // boxShadow: "0px 0px 14px rgb(182, 182, 182)",
   },
   recipe_field: {
     margin: "5px 0px 5px 0px",
@@ -73,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   form_control: {
-    height: "100%",
+    // height: "100%",
   },
   edit_mode_button: {
     height: "30px",
@@ -114,15 +119,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
-  header_image: {
-    objectFit: "cover",
-    objectPosition: "center",
-    height: "200px",
-    width: "100%",
-  },
-  header_image_box: {
-    width: "1000px",
-  },
 }));
 
 export default function EditRecipe({ recipeIdentifier }) {
@@ -159,7 +155,7 @@ export default function EditRecipe({ recipeIdentifier }) {
   const [showMethod, setShowMethod] = useState(true);
   const [showIngredients, setShowIngredients] = useState(true);
   const [readOnly, setReadOnly] = useState(true);
-  const history = useHistory();
+  const history = useNavigate();
   const { id } = useParams();
 
   // const reducer = (recipe, action) => {
@@ -432,11 +428,8 @@ export default function EditRecipe({ recipeIdentifier }) {
   return (
     <div className={classes.contents}>
       <div className={classes.header}>
-        <div style={{ position: "relative" }}>
           {readOnly ? null : <h3 className={classes.edit_mode}>EDIT MODE</h3>}
           <h1>{currentRecipe.name}</h1>
-          <Select options={options} />
-        </div>
         <div>
           <Button
             className={(classes.edit_mode_button, classes.sidebar_item)}
@@ -450,8 +443,9 @@ export default function EditRecipe({ recipeIdentifier }) {
         </div>
       </div>
       <div className={classes.grid_container}>
-        <div className={classes.grid_items}>
+        <div className={classes.main_panel}>
           <form className={classes.form_group} onSubmit={onSubmit}>
+          <Select options={options} />
             <TextField
               label="name"
               type="text"
@@ -608,7 +602,7 @@ export default function EditRecipe({ recipeIdentifier }) {
             </div>
           </form>
         </div>
-        <div className={classes.grid_items}>
+        <div className={classes.sidebar}>
           <div className={classes.sidebar_item}>
             <h2>Nutrition</h2>
             <p>Estimated nutrition:</p>
@@ -703,10 +697,10 @@ export default function EditRecipe({ recipeIdentifier }) {
    * @returns
    */
   function IngredientForm() {
+    const [ingredients, setIngredients] = useState(currentRecipe.ingredients);
     return (
-      <div>
+      <Reorder.Group axis="y" values={ingredients} onReorder={setIngredients}>
         {currentRecipe.ingredients.map((ingredient, i) => {
-          return (
             <div className={classes.recipe_field} key={i}>
               <input
                 style={{ width: "75px" }}
@@ -759,7 +753,6 @@ export default function EditRecipe({ recipeIdentifier }) {
                 </Button>
               )}
             </div>
-          );
         })}
         <Button
           variant="outlined"
@@ -768,7 +761,7 @@ export default function EditRecipe({ recipeIdentifier }) {
         >
           Add new ingredient
         </Button>
-      </div>
+      </Reorder.Group>
     );
   }
 }

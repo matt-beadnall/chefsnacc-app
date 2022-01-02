@@ -56,7 +56,7 @@ code {
 
 .modal {
   width: clamp(70%, 1000px, 90%);
-  height: min(70%, 800px);
+  height: min(75%, 800px);
   margin: auto;
   padding: 0 2rem;
   border-radius: 12px;

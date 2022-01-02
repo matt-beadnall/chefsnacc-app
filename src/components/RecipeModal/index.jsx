@@ -36,8 +36,7 @@ const RecipeModal = ({ children, handleClose, recipe }) => {
         animate="visible"
         exit="exit"
       >
-      {children}
-        <h1>{recipe.name}</h1>
+        <button onClick={handleClose}>Close</button>
         <Link to={"/letscook/" + recipe._id}>
           <button>
             LET'S COOK!
@@ -48,7 +47,7 @@ const RecipeModal = ({ children, handleClose, recipe }) => {
             FULL PAGE
           </button>
         </Link>
-        <button onClick={handleClose}>Close</button>
+      {children}
       </motion.div>
     </Backdrop>
   );

@@ -1,8 +1,8 @@
 import "./App.css";
 import "./App.css";
 
-import { Route, Switch } from "react-router-dom";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { Route, Routes } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 
 import About from "./pages/About";
 import BoardAdmin from "./components/BoardAdmin";
@@ -24,7 +24,7 @@ import Register from "./components/Register";
 import SideBar from "./components/SideBar";
 import styled from "styled-components";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       light: "#f466d6",
@@ -51,9 +51,10 @@ function App() {
     }
   `;
 
-  const PageContent = styled.section`
+  const PageContent = styled.div`
     overflow: scroll; 
     height:100vh;
+    width:100%;
     /* margin: 10px 10px 0px 20px; */
   `
 
@@ -65,7 +66,7 @@ function App() {
           <SiteContent>
             <SideBar />
             <PageContent>
-              <Switch>
+              <Routes>
                 <Route exact path={["/"]} component={Home} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
@@ -83,7 +84,7 @@ function App() {
                 <Route path="/playground" component={CodePlayground} />
                 <Route path="/calendar" component={Calendar} />
                 <Route path="/letscook/:id" component={LetsCook} />
-              </Switch>
+              </Routes>
             </PageContent>
             {/* </GridContent> */}
             {/* </BrowserRouter> */}
