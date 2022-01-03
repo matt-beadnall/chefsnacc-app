@@ -1,7 +1,7 @@
 import "./App.css";
 import "./App.css";
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Switch } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 
 import About from "./pages/About";
@@ -10,7 +10,7 @@ import BoardModerator from "./components/BoardModerator";
 import Calendar from "./pages/Calendar";
 import CodePlayground from "./pages/CodePlayground";
 import Contact from "./pages/Contact";
-import EditRecipe from "./pages/EditRecipe";
+import EditRecipe from "./pages/EditRecipe/index";
 import Friends from "./pages/Friends";
 import Gallery from "./pages/Gallery";
 import Home from "./components/Home";
@@ -67,23 +67,23 @@ function App() {
             <SideBar />
             <PageContent>
               <Routes>
-                <Route exact path={["/"]} component={Home} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/profile" component={Profile} />
-                {/* <Route path="/user" component={BoardUser} /> */}
-                <Route path="/mod" component={BoardModerator} />
-                <Route path="/admin" component={BoardAdmin} />
-                <Route path="/user" exact component={RecipeList} />
-                <Route path="/edit/:id" component={EditRecipe} />
-                <Route path="/pantry" component={Pantry} />
-                <Route path="/friends" component={Friends} />
-                <Route path="/about" component={About} />
-                <Route path="/contact" component={Contact} />
-                <Route path="/gallery" component={Gallery} />
-                <Route path="/playground" component={CodePlayground} />
-                <Route path="/calendar" component={Calendar} />
-                <Route path="/letscook/:id" component={LetsCook} />
+                <Route exact path={"/"} element={<Home />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/register" element={<Register />} />
+                <Route exact path="/profile" element={<Profile />} />
+                {/* <Route path="/user" element={BoardUser} /> */}
+                <Route path="/mod" element={<BoardModerator />} />
+                <Route path="/admin" element={<BoardAdmin />} />
+                <Route path="/user" exact element={<RecipeList />} />
+                <Route path="/edit/:id" element={<EditRecipe />} />
+                <Route path="/pantry" element={<Pantry />} />
+                <Route path="/friends" element={<Friends />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/playground" element={<CodePlayground />} />
+                <Route path="/calendar" element={<Calendar />} />
+                <Route path="/letscook/:id" element={<LetsCook />} />
               </Routes>
             </PageContent>
             {/* </GridContent> */}

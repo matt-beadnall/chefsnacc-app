@@ -29,10 +29,12 @@
     "mongoose": "^5.12.4",
     "nodejs-base64": "^2.0.0",
     "react-countdown-circle-timer": "^2.5.4",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-image-lightbox": "^5.1.4",
     "react-images": "^1.2.0-beta.7",
     "react-photo-gallery": "^8.0.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.2.1",
     "react-scripts": "^4.0.3",
     "react-select": "^5.2.1",
     "react-spinners": "^0.11.0",
@@ -69,9 +71,7 @@
     ]
   },
   "devDependencies": {
-    "install-peers": "^1.0.3",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "@babel/core": "^7.13.0"
+    "@babel/core": "^7.13.0",
+    "install-peers": "^1.0.3"
   }
 }

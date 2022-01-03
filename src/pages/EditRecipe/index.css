@@ -1,0 +1,96 @@
+.grid_container {
+    display: flex;
+  }
+
+.main_panel {
+    width: 60%;
+    margin: 10px;
+    height: fit-content;
+    padding:20px;
+    background-color: white;
+    border-radius: 8px;
+  }
+
+.sidebar {
+    width: 40%;
+    height: fit-content;
+    margin:10px;
+    padding:20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.contents {
+    width: 100%;
+    display: block;
+    padding: 20px;
+}
+
+.recipe_field {
+    margin: 5px 0px 5px 0px;
+    display: flex;
+}
+
+.form_group {
+    margin: 12px 0 12px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form_control {
+    height: 100%;
+}
+
+.edit_mode_button {
+    height: 30px;
+    width: 40px;
+    margin-left: auto;
+}
+
+.sidebar_item {
+    border: solid 2px lightgrey;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+.submit_button {
+    margin: 5px,
+}
+  
+.delete {
+    margin-left: 5px;
+    color: white;
+    background-color: red;
+    border-color: red;
+  }
+
+.delete:hover {
+    color: red;
+    background-color: pink;
+}
+
+.edit_mode {
+    position: absolute;
+    top: -20px;
+    color: #ffdc2e;
+  }
+
+.header {
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* for smartphones: */
+@media screen and (max-width: 600px) {
+    .button_group {
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+    }
+
+    .contents {
+        width: 100%;
+      }
+}

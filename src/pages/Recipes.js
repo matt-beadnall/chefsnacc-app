@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CreateRecipeMenu from "../components/CreateRecipeMenu";
-import EditRecipe from "./EditRecipe";
+import EditRecipe from "./EditRecipe/index";
 import Recipe from "../components/Recipe.js";
 import RecipeModal from "../components/RecipeModal";
 import ToggleButton from "@material-ui/lab/ToggleButton";

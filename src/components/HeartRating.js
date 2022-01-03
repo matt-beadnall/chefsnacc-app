@@ -1,7 +1,7 @@
 import React from 'react'
+import emptyHeart from "../images/chefsnacc-heart-empty.svg";
 // import { ReactComponent as Heart } from "../images/chefsnacc-heart.svg";
 import heart from "../images/chefsnacc-heart.svg";
-import emptyHeart from "../images/chefsnacc-heart-empty.svg";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -29,10 +29,10 @@ export default function HeartRating(props) {
     return (
         <div className={classes.heart_array}>
           {
-            [1, 2, 3, 4, 5].map((index, i) => {
+            [1, 2, 3, 4, 5].map((heartIndex) => {
             return (
-              <div className={classes.heart_container} key={i} onClick={(event) => props.onChangeRecipe(event, "hidden")}>
-                <img className={classes.heart} src={index <= props.rating ? heart : emptyHeart} alt="heart" />
+              <div className={classes.heart_container} key={heartIndex} onClick={(event) => props.onChangeRecipe(event, "hidden")}>
+                <img className={classes.heart} src={heartIndex <= props.rating ? heart : emptyHeart} alt="heart" />
               </div>
             );
           })}

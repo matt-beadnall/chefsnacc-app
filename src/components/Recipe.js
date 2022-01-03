@@ -160,10 +160,6 @@ export default function Recipe(props) {
     // console.log(pictureArray);
   };
 
-  function setRating() {
-    //todo
-  }
-
   return (
     <RecipeContainer selected={selected}>
       <RecipeImageBoxStyled pictures={pictures}></RecipeImageBoxStyled>
@@ -179,7 +175,7 @@ export default function Recipe(props) {
             </RecipeTitle>
           </RecipeTitleBox>
         </RecipeHeader>
-        <HeartRating rating={props.recipe.rating} setRating={setRating} />
+        <HeartRating rating={props.recipe.rating} />
         <RecipeInfo>
           Suitability: {getSuitability(props.recipe, pantryIngredients)}
         </RecipeInfo>
