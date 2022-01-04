@@ -1,6 +1,6 @@
 import Backdrop from "../Backdrop";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion/dist/framer-motion";
 
 const dropIn = {
   hidden: {
@@ -26,7 +26,7 @@ const dropIn = {
 const RecipeModal = ({ children, handleClose, recipe }) => {
   return (
     <Backdrop onClick={handleClose}>
-      <motion.div
+      <div
         // drag
         // dragConstraints={{left: -300, right: 300, top: -300, bottom: 300}}
         onClick={(e) => e.stopPropagation()}
@@ -48,7 +48,7 @@ const RecipeModal = ({ children, handleClose, recipe }) => {
           </button>
         </Link>
       {children}
-      </motion.div>
+      </div>
     </Backdrop>
   );
 };

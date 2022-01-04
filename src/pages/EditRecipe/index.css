@@ -27,6 +27,7 @@
 }
 
 .recipe_field {
+    height: 30px;
     margin: 5px 0px 5px 0px;
     display: flex;
 }
@@ -47,11 +48,24 @@
     margin-left: auto;
 }
 
+.reorder-button{
+    padding-top:3px;
+    margin-left:2px;
+    width: 30px;
+    /* height: auto; */
+    border:none;
+    opacity:0.3;
+    background-color: transparent;
+}
+
+.reorder {
+    height:auto;
+    width:auto;
+}
+
+
 .sidebar_item {
-    border: solid 2px lightgrey;
-    border-radius: 5px;
     margin-bottom: 5px;
-    padding: 10px;
 }
 
 .submit_button {

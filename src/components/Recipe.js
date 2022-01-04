@@ -1,3 +1,5 @@
+import "./Recipe.css"
+
 import { Button, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 
@@ -9,6 +11,7 @@ import { formatDate } from "../functions/dateFunctions";
 import getSuitability from "../functions/getSuitability";
 import { grey } from "@material-ui/core/colors";
 import logoGrey from "../images/chefsnacc-grey.svg";
+import { motion } from "framer-motion/dist/framer-motion";
 import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,17 +37,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#c2c2c2",
   },
 }));
-
-const RecipeContainer = styled.div`
-  margin: 10px;
-  text-decoration: none;
-  border-radius: 8px;
-  background-color: white;
-  &:hover {
-    box-shadow: 0px 0px 10px rgb(190, 190, 190);
-    cursor: pointer;
-  }
-`;
 
 const RecipeHeader = styled.div`
   display: "flex";
@@ -161,7 +153,9 @@ export default function Recipe(props) {
   };
 
   return (
-    <RecipeContainer selected={selected}>
+    <div 
+      className="recipe-container"
+    >
       <RecipeImageBoxStyled pictures={pictures}></RecipeImageBoxStyled>
       <TextContainer>
         <RecipeHeader>
@@ -190,7 +184,7 @@ export default function Recipe(props) {
           ) : null}
         </div>
       </TextContainer>
-    </RecipeContainer>
+    </div>
     // </Link>
   );
 }

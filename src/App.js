@@ -1,7 +1,7 @@
 import "./App.css";
 import "./App.css";
 
-import { Route, Routes, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 
 import About from "./pages/About";
@@ -37,26 +37,27 @@ const theme = createTheme({
   },
 });
 
+const AppContainer = styled.div`
+/* background: #fcfcfc; */
+`;
+
+const SiteContent = styled.main`
+width: 100vw;
+display: flex;
+margin: auto;
+@media (max-width: 700px) {
+  width: 95vw;
+}
+`;
+
+const PageContent = styled.div`
+overflow: scroll; 
+height:100vh;
+width:100%;
+/* margin: 10px 10px 0px 20px; */
+`
+
 function App() {
-  const AppContainer = styled.div`
-    /* background: #fcfcfc; */
-  `;
-
-  const SiteContent = styled.main`
-    width: 100vw;
-    display: flex;
-    margin: auto;
-    @media (max-width: 700px) {
-      width: 95vw;
-    }
-  `;
-
-  const PageContent = styled.div`
-    overflow: scroll; 
-    height:100vh;
-    width:100%;
-    /* margin: 10px 10px 0px 20px; */
-  `
 
   return (
     // <HostContext.Provider value="192.168.1.161">

@@ -1,0 +1,12 @@
+
+.recipe-container {
+    margin: 10px;
+  text-decoration: none;
+  border-radius: 8px;
+  background-color: white;
+}
+
+recipe-container:hover {
+    box-shadow: 0px 0px 10px rgb(190, 190, 190);
+    cursor: pointer;
+}

@@ -31,7 +31,7 @@ export default function HeartRating(props) {
           {
             [1, 2, 3, 4, 5].map((heartIndex) => {
             return (
-              <div className={classes.heart_container} key={heartIndex} onClick={(event) => props.onChangeRecipe(event, "hidden")}>
+              <div className={classes.heart_container} key={heartIndex} onClick={(e) => props.changeMethod(e, heartIndex)}>
                 <img className={classes.heart} src={heartIndex <= props.rating ? heart : emptyHeart} alt="heart" />
               </div>
             );

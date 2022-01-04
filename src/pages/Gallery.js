@@ -13,13 +13,7 @@ const override = css`
   margin: auto;
 `;
 
-export default function Gallery({ currentPageId }) {
-  const [pictures, setPictures] = useState([]);
-
-  const [currentImage, setCurrentImage] = useState(0);
-  const [viewerIsOpen, setViewerIsOpen] = useState(false);
-
-  const GalleryContainer = styled.div`
+const GalleryContainer = styled.div`
     width: 100%;
     animation: fadeInAnimation ease 1s;
     animation-iteration-count: 1;
@@ -33,6 +27,12 @@ export default function Gallery({ currentPageId }) {
       }
     }
   `;
+
+export default function Gallery({ currentPageId }) {
+  const [pictures, setPictures] = useState([]);
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
   //spinner
   // eslint-disable-next-line

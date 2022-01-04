@@ -1,4 +1,6 @@
-import { AnimatePresence, motion } from "framer-motion";
+import "./Recipes.css";
+
+import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { Button, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 
@@ -21,23 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipesContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  width: 100%;
-  margin: auto;
-  @media screen and (max-width: 700px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
 const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
   const [recipes, setRecipes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(undefined);
-  
+
   const close = () => {
     setModalOpen(false);
     setSelectedRecipe(undefined);
@@ -70,7 +61,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
       });
   }, []);
 
-  let filter = displayArchived
+  let filterType = displayArchived
     ? (current) => current.hidden
     : (current) => !current.hidden;
   if (sortingMethod === "alpha") {
@@ -88,49 +79,76 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
   } else {
     sorted = recipes.slice().sort((a, b) => a.date_added - b.date_added);
   }
+
+  const item = {
+    hidden: { opacity: 0, y: 200 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        ease: [0.6, 0.01, -0.05, 0.95],
+        duration: 1.6,
+      },
+    },
+  };
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
   return (
-    <RecipesContainer>
-      {sorted.length === 0 ? (
-        <CircularProgress></CircularProgress>
-      ) : (
-        sorted.filter(filter).map((recipe, i) => {
-          return (
-            <div>
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 1 }}
-                onClick={() => (modalOpen ? close() : open(recipe))}
-              >
-                <Recipe
-                  recipe={recipe}
-                  ingredients={ingredients}
-                  // selectRecipe={selectCurrentRecipe(currentRecipe)}
-                  key={i}
-                  _id={i}
-                />
-              </motion.div>
-              <AnimatePresence
-                // Disable any initial animations on children that
-                // are present when the component is first rendered
-                initial={false}
-                // Only render one component at a time.
-                // The exiting component will finish its exit
-                // animation before entering component is rendered
-                exitBeforeEnter={true}
-                // Fires when all exiting nodes have completed animating out
-                onExitComplete={() => null}
-              >
-                {modalOpen && (
-                  <RecipeModal modalOpen={modalOpen} handleClose={close} recipe={selectedRecipe}>
-                    <EditRecipe recipeIdentifier={selectedRecipe._id}/>
-                  </RecipeModal>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })
-      )}
-    </RecipesContainer>
+    <div>
+          {/* <React.Fragment> */}
+      <motion.div
+        className="recipes-container"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        {sorted.filter(filterType).map((recipe, i) => (
+            <motion.div
+              key={i}
+              variants={item}
+              // whileHover={{ scale: 1.03 }}
+              // whileTap={{ scale: 1 }}
+              // onClick={() => (modalOpen ? close() : open(recipe))}
+            >
+              <Recipe
+                recipe={recipe}
+                ingredients={ingredients}
+                // selectRecipe={selectCurrentRecipe(currentRecipe)}
+              />
+            </motion.div>
+        ))}
+      </motion.div>
+          {/* </React.Fragment> */}
+      <AnimatePresence
+        // Disable any initial animations on children that
+        // are present when the component is first rendered
+        initial={false}
+        // Only render one component at a time.
+        // The exiting component will finish its exit
+        // animation before entering component is rendered
+        exitBeforeEnter={true}
+        // Fires when all exiting nodes have completed animating out
+        onExitComplete={() => null}
+      >
+        {modalOpen && (
+          <RecipeModal
+            modalOpen={modalOpen}
+            handleClose={close}
+            recipe={selectedRecipe}
+          >
+            <EditRecipe recipeIdentifier={selectedRecipe._id} />
+          </RecipeModal>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 
@@ -195,7 +213,6 @@ export default function Recipes() {
           >
             ?!
           </button>
-
           <ToggleButtonGroup
             value={sortingMethod}
             exclusive
