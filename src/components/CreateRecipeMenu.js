@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreateRecipeMenu() {
 
-  const CREATE_RECIPE_BUTTON = "New Recipe +";
+  const CREATE_RECIPE_BUTTON = "+";
 
   const history = useNavigate();
   const [name, setName] = useState("");

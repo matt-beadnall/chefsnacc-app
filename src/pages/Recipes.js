@@ -110,13 +110,13 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
         initial="hidden"
         animate="show"
       >
-        {sorted.filter(filterType).map((recipe, i) => (
+        {sorted.filter(filterType).map((recipe) => (
             <motion.div
-              key={i}
+              key={recipe._id}
               variants={item}
-              // whileHover={{ scale: 1.03 }}
-              // whileTap={{ scale: 1 }}
-              // onClick={() => (modalOpen ? close() : open(recipe))}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 1 }}
+              onClick={() => (modalOpen ? close() : open(recipe))}
             >
               <Recipe
                 recipe={recipe}

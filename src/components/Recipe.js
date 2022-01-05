@@ -128,11 +128,11 @@ export default function Recipe(props) {
   }, []);
 
   const getPictures = () => {
-    console.log("GETTING PICTURES!");
-    setPictures([]);
+    console.log(props.recipe._id);
+    // setPictures([]);
     axios
       .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery/${props.recipe._id}`
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery/recipes/${props.recipe._id}`
       )
       .then((res) => {
         res.data
@@ -141,7 +141,7 @@ export default function Recipe(props) {
             var imageBase64 = `data:${
               picture.img.contentType
             };base64,${Buffer.from(picture.img.data.data).toString("base64")}`;
-
+            console.log(imageBase64);
             setPictures(pictures.concat(imageBase64));
           });
       })
