@@ -39,6 +39,9 @@ export const GridContent = styled.div`
 export const StyledLink = styled(NavLink)`
   color: #444444;
   text-decoration: none;
+  list-style-type: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 export const ListItem = styled.li`

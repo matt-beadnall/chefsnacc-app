@@ -1,5 +1,4 @@
 import "./App.css";
-import "./App.css";
 
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
@@ -56,6 +55,7 @@ height:100vh;
 width:100%;
 /* margin: 10px 10px 0px 20px; */
 `
+
 
 function App() {
 

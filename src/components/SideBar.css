@@ -1,0 +1,10 @@
+.selected {
+    text-decoration: none; 
+    color:black;
+    background-color: rgb(209, 209, 209);
+  }
+
+  .normal {
+    text-decoration: none;
+    color:black;
+  }

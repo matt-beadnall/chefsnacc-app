@@ -4,14 +4,13 @@ import { Button, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 
 import HeartRating from "./HeartRating.js";
-import { Link } from "react-router-dom";
 import SelectedRecipeInfo from "./SelectedRecipeInfo.js";
 import axios from "axios";
 import { formatDate } from "../functions/dateFunctions";
 import getSuitability from "../functions/getSuitability";
-import { grey } from "@material-ui/core/colors";
+// import { grey } from "@material-ui/core/colors";
 import logoGrey from "../images/chefsnacc-grey.svg";
-import { motion } from "framer-motion/dist/framer-motion";
+// import { motion } from "framer-motion/dist/framer-motion";
 import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
@@ -116,19 +115,16 @@ export default function Recipe(props) {
 
   useEffect(() => {
     console.log(props.recipe._id);
-    console.log(props.currentlySelected);
     setSelected(props.recipe._id === props.currentlySelected ? true : false);
     const pantry = props.ingredients.map((ingredient) => {
       return ingredient.name;
     });
     setPantryIngredients(pantry);
-    console.log(pictures);
     getPictures();
     // eslint-disable-next-line
   }, []);
 
   const getPictures = () => {
-    console.log(props.recipe._id);
     // setPictures([]);
     axios
       .get(
@@ -141,7 +137,6 @@ export default function Recipe(props) {
             var imageBase64 = `data:${
               picture.img.contentType
             };base64,${Buffer.from(picture.img.data.data).toString("base64")}`;
-            console.log(imageBase64);
             setPictures(pictures.concat(imageBase64));
           });
       })

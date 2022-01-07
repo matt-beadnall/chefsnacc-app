@@ -1,3 +1,5 @@
+import "./SideBar.css"
+
 import { LogoGroup, StyledLink } from "../styled/CommonStyledComponents";
 import React, { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
@@ -5,6 +7,7 @@ import styled, { css, keyframes } from "styled-components";
 import AuthService from "../services/auth.service";
 import { NavLink } from "react-router-dom";
 import logo from "../images/chefsnacc-logo-teal.svg";
+import { red } from "@material-ui/core/colors";
 import title from "../images/chefsnacc-text-teal.svg";
 
 const hide = keyframes`
@@ -55,8 +58,10 @@ margin: 5px;
 const ListItem = styled.li`
 list-style-type: none;
 padding: 12px 0px 12px 16px;
+background-color: inherit;
+width: 100%;
 &:hover {
-  background: #d1d1d1;
+font-weight: bold;
   padding-left: 20px;
   transition: padding-left 0.1s;
 }
@@ -114,6 +119,7 @@ ${(props) =>
 `;
 
 const Contents = styled.div`
+width:100%;
 display: inline-block;
 visibility: ${(props) => (props.collapsed ? "hidden" : "visible")};
 animation: ${(props) => (props.collapsed ? fade : appear)} 0.3s linear;
@@ -168,39 +174,39 @@ export default function SideBar(props) {
       </LogoGroup>
       <Contents collapsed={collapsed} animationsArmed={animationsArmed}>
         {currentUser && (
-          <StyledLink to={"/user"}>
-            <ListItem>Recipes</ListItem>
-          </StyledLink>
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to={"/user"}>
+          <ListItem>Recipes</ListItem>
+          </NavLink>
         )}
         {currentUser && (
-          <StyledLink to="/gallery">
-            <ListItem>Gallery</ListItem>
-          </StyledLink>
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to="/gallery">
+          <ListItem>Gallery</ListItem>
+          </NavLink>
         )}
         {currentUser && (
-          <StyledLink to="/pantry">
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to="/pantry">
             <ListItem>Pantry</ListItem>
-          </StyledLink>
+          </NavLink>
         )}
         {currentUser && (
-          <StyledLink to="/profile">
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to="/profile">
             <ListItem>Profile</ListItem>
-          </StyledLink>
+          </NavLink>
         )}
         {currentUser && (
-          <StyledLink to="/friends">
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to="/friends">
             <ListItem>Friends</ListItem>
-          </StyledLink>
+          </NavLink>
         )}
         {currentUser && (
-          <StyledLink to="/calendar">
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to="/calendar">
             <ListItem>Calendar</ListItem>
-          </StyledLink>
+          </NavLink>
         )}
         {currentUser && (
-          <StyledLink to="/playground">
+          <NavLink className={(navData) => navData.isActive ? "selected" : "normal" } to="/playground">
             <ListItem>Dev: Code Playground</ListItem>
-          </StyledLink>
+          </NavLink>
         )}
         <SiteFooter>
           <div>
