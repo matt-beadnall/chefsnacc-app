@@ -94,9 +94,9 @@ const IngredientList = () => {
         <thead>
           <tr>
             <th></th>
-            <th>Ingredient</th>
-            <th>Total Quanity</th>
-            <th>Unit</th>
+            <th width="140px">Ingredient</th>
+            <th width="140px">Total Quanity</th>
+            <th width="140px">Unit</th>
             <th></th>
           </tr>
         </thead>

@@ -29,7 +29,10 @@ const ControlsGroup = styled.div`
 const RecipesHeader = styled.div`
   vertical-align: middle;
   width: 100%;
-  margin: auto;
+  margin: 10px;
+  padding: 10px;
+  border: 3px solid #70E8C8;
+  border-radius: 8px;
 `;
 
 
@@ -66,16 +69,37 @@ export default function Recipes() {
     // console.log(method.value);
   }
 
+  const customStyles = {
+    menu: (provided, state) => ({
+      ...provided,
+      width: state.selectProps.width,
+      borderBottom: '1px dotted pink',
+      color: state.selectProps.menuColor,
+      padding: 20,
+    }),
+  
+    control: (_, { selectProps: { width }}) => ({
+      width: width
+    }),
+  
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = 'opacity 300ms';
+  
+      return { ...provided, opacity, transition };
+    }
+  }
+
   return (
     <div>
       <RecipesHeader>
         <ControlsGroup>
-        <AsyncSelect></AsyncSelect>
-        <Select></Select>
+        <AsyncSelect styles={customStyles}></AsyncSelect>
+        <Select styles={{color: "aqua"}}></Select>
         <div>categories</div>
 
           <CreateRecipeMenu />
-          <button
+          {/* <button
             style={{ width: "50px" }}
             onMouseOver={() => setButtonDescription("Tell me what to cook")}
             onMouseLeave={() => setButtonDescription("")}
@@ -88,7 +112,7 @@ export default function Recipes() {
             onMouseLeave={() => setButtonDescription("")}
           >
             ?!
-          </button>
+          </button> */}
           <div>Sorting: <Select options={sortingCategories} defaultValue={sortingMethod} onChange={method => setSorting(method)} /></div>
         </ControlsGroup>
         {/* <DescriptionLine>{buttonDesc}</DescriptionLine> */}

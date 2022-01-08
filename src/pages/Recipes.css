@@ -12,3 +12,8 @@
     flex-direction: column;
   }
 }
+
+.async-select {
+  background-color: transparent;
+  color: aqua;
+}

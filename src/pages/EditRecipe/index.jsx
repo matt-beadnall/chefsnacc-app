@@ -416,14 +416,13 @@ export default function EditRecipe({ recipeIdentifier }) {
             />
 
             <div style={{ display: "flex", marginTop: "20px" }}>
-              <h3>Ingredients</h3>
-              <Button
-                style={{ marginLeft: "10px" }}
-                variant="outlined"
+              <h4>Ingredients</h4>
+              <button
+                className="collapseButton"
                 onClick={handleIngredientVisibility}
               >
-                {showIngredients ? "collapse" : "expand"}
-              </Button>
+                {showIngredients ? "COLLAPSE" : "EXPAND"}
+              </button>
             </div>
             {showIngredients ? IngredientForm(currentRecipe, setIngredients) : null}
             <div style={{ display: "flex", marginTop: "20px" }}>

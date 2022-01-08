@@ -96,6 +96,13 @@
     justify-content: space-between;
 }
 
+.collapseButton {
+    height:2em;
+    position:relative;
+    bottom: -50px;
+    right: -10px;
+}
+
 /* for smartphones: */
 @media screen and (max-width: 600px) {
     .button_group {
@@ -108,3 +115,4 @@
         width: 100%;
       }
 }
+
