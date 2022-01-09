@@ -50,7 +50,7 @@ export default function LetsCook() {
     
     useEffect(() => {
       axios
-        .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${id}`)
+        .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/recipe/${id}`)
         .then((response) => {
           setRecipe(response.data);
         })

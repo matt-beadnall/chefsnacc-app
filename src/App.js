@@ -9,6 +9,7 @@ import BoardModerator from "./components/BoardModerator";
 import Calendar from "./pages/Calendar";
 import CodePlayground from "./pages/CodePlayground";
 import Contact from "./pages/Contact";
+import Dashboard from "./pages/Dashboard";
 import EditRecipe from "./pages/EditRecipe/index";
 import Friends from "./pages/Friends";
 import Gallery from "./pages/Gallery";
@@ -85,6 +86,7 @@ function App() {
                 <Route path="/playground" element={<CodePlayground />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/letscook/:id" element={<LetsCook />} />
+                <Route path="/dashboard" element={<Dashboard />} />
               </Routes>
             </PageContent>
             {/* </GridContent> */}

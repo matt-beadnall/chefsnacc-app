@@ -96,6 +96,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
         >
           {sorted.filter(filterType).map((recipe) => (
               <motion.div
+              style={{margin:"10px"}}
                 key={recipe._id}
                 variants={item}
                 whileHover={{ scale: 1.03 }}

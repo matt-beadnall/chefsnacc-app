@@ -229,6 +229,16 @@ export default function SideBar(props) {
           collapsed={collapsed}
           animationsArmed={animationsArmed}
         >
+            {currentUser && (
+            <NavLink
+              className={(navData) =>
+                navData.isActive ? "selected" : "normal"
+              }
+              to={"/dashboard"}
+            >
+              <ListItem>Dashboard</ListItem>
+            </NavLink>
+          )}
           {currentUser && (
             <NavLink
               className={(navData) =>
@@ -300,6 +310,12 @@ export default function SideBar(props) {
             </NavLink>
           )}
         </LinkListContents>
+        <SiteFooter>
+          <div>
+            <h4 style={{ padding: "0px", margin: "5px" }}>Chefsnacc, 2022</h4>
+            <p style={{ padding: "0px", margin: "5px" }}>Version 0.91</p>
+          </div>
+        </SiteFooter>
       </SideBarArea>
       <PageDivider onMouseDown={startResizing}></PageDivider>
     </SideBarContainer>

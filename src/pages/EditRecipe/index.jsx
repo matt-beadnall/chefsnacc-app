@@ -16,7 +16,7 @@ import { Reorder } from "framer-motion/dist/framer-motion";
 import Select from "react-select";
 import UploadImage from "../../components/UploadImage.js";
 import axios from "axios";
-import edit from "../../images/Edit.svg";
+import back from "../../images/back.svg";
 import { motion } from "framer-motion/dist/framer-motion";
 import reorder from "../../images/reorder.svg";
 
@@ -68,7 +68,7 @@ export default function EditRecipe({ recipeIdentifier }) {
   const [showMethod, setShowMethod] = useState(true);
   const [showIngredients, setShowIngredients] = useState(true);
   const [readOnly, setReadOnly] = useState(true);
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   // const reducer = (recipe, action) => {
@@ -85,7 +85,7 @@ export default function EditRecipe({ recipeIdentifier }) {
     const recipeId = recipeIdentifier === undefined ? id : recipeIdentifier;
     axios
       .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/${recipeId}`
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/recipe/${recipeId}`
       )
       .then((response) => {
         setCurrentRecipe(response.data);
@@ -249,7 +249,7 @@ export default function EditRecipe({ recipeIdentifier }) {
   };
 
   const doCancel = () => {
-    history.push("/user");
+    navigate("/user");
   };
 
   const deleteRecipe = (e) => {
@@ -261,7 +261,7 @@ export default function EditRecipe({ recipeIdentifier }) {
       )
       .then((res) => {
         console.log(res.data);
-        history.push("/user");
+        navigate("/user");
       });
   };
 
@@ -365,36 +365,36 @@ export default function EditRecipe({ recipeIdentifier }) {
     <div className="contents">
       <div className="header">
         {readOnly ? null : <h3 className="edit_mode">EDIT MODE</h3>}
-        <h1>{currentRecipe.name}</h1>
-        <div>
-          <Button
-            className="edit_mode_button sidebar_item"
-            variant="outlined"
-            color="primary"
-            value="Cancel"
-            onClick={changeEditMode}
-          >
-            <img className="edit" src={edit} alt="edit icon" />
-          </Button>
+        <div
+          className="expand-button left"
+          onClick={() => navigate("/user")}
+        >
+          <img
+            style={{ width: "30px", height: "30px" }}
+            src={back}
+            alt="navigate back"
+          ></img>
+          <p style={{ padding: "10px" }}>Back to Recipes</p>
         </div>
+          <h1 className="recipe-header">{currentRecipe.name}</h1>
       </div>
       <div className="grid_container">
         <div className="main_panel">
           <form className="form_group" onSubmit={onSubmit}>
             <Select options={options} onChange={(val) => console.log(val)} />
-            <TextField
+            {/* <TextField
               label="name"
               type="text"
               className="form_control"
               value={currentRecipe.name}
               onChange={(event) => onChangeRecipe(event, "name")}
               inputprops={{ readOnly: readOnly }}
-            />
+            /> */}
             <TextField
               label="chef"
               type="text"
               className="form_control"
-              value={currentRecipe.chef}
+              value={currentRecipe.chef.username}
               onChange={(event) => onChangeRecipe(event, "chef")}
               inputprops={{ readOnly: readOnly }}
             />
@@ -424,7 +424,9 @@ export default function EditRecipe({ recipeIdentifier }) {
                 {showIngredients ? "COLLAPSE" : "EXPAND"}
               </button>
             </div>
-            {showIngredients ? IngredientForm(currentRecipe, setIngredients) : null}
+            {showIngredients
+              ? IngredientForm(currentRecipe, setIngredients)
+              : null}
             <div style={{ display: "flex", marginTop: "20px" }}>
               <h3>Method</h3>
               <Button
@@ -632,7 +634,14 @@ export default function EditRecipe({ recipeIdentifier }) {
 
     return (
       <div>
-        <Reorder.Group style={{paddingLeft:"0px"}} axis="y" values={ingredients} onReorder={(ingredients) => setIngredientsOnRecipe(recipe,ingredients)}>
+        <Reorder.Group
+          style={{ paddingLeft: "0px" }}
+          axis="y"
+          values={ingredients}
+          onReorder={(ingredients) =>
+            setIngredientsOnRecipe(recipe, ingredients)
+          }
+        >
           {ingredients.map((ingredient, i) => (
             <Reorder.Item
               key={ingredient._id}
@@ -642,7 +651,16 @@ export default function EditRecipe({ recipeIdentifier }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div style={{width:"30px", height:"30px", lineHeight:"30px", color: "#bbb"}}>{i}</div>
+              <div
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  lineHeight: "30px",
+                  color: "#bbb",
+                }}
+              >
+                {i}
+              </div>
               <input
                 style={{ width: "60px" }}
                 type="text"
@@ -684,8 +702,16 @@ export default function EditRecipe({ recipeIdentifier }) {
                   X
                 </Button>
               )}
-              <motion.button className="reorder-button" whileHover={{ scale: 1.1, opacity: 1 }}>
-                 <img className="reorder" src={reorder} alt="reorder icon" draggable="false"/>
+              <motion.button
+                className="reorder-button"
+                whileHover={{ scale: 1.1, opacity: 1 }}
+              >
+                <img
+                  className="reorder"
+                  src={reorder}
+                  alt="reorder icon"
+                  draggable="false"
+                />
               </motion.button>
             </Reorder.Item>
           ))}

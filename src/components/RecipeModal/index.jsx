@@ -1,24 +1,30 @@
+import "./index.css";
+
 import Backdrop from "../Backdrop";
 import { Link } from "react-router-dom";
+import close from "../../images/close.svg";
+import expand from "../../images/expand.svg";
 import { motion } from "framer-motion/dist/framer-motion";
 
 const dropIn = {
   hidden: {
-    y: "-100vh",
+    // y: "-100vh",
     opacity: 0,
+    scale: 1.5,
   },
   visible: {
-    y: "0",
+    // y: "0",
     opacity: 1,
+    scale: 1,
     transition: {
       duration: 0.1,
       type: "spring",
-      damping: 25,
+      damping: 20,
       stiffness: 500,
     },
   },
   exit: {
-    y: "100vh",
+    // y: "100vh",
     opacity: 0,
   },
 };
@@ -26,7 +32,7 @@ const dropIn = {
 const RecipeModal = ({ children, handleClose, recipe }) => {
   return (
     <Backdrop onClick={handleClose}>
-      <div
+      <motion.div
         // drag
         // dragConstraints={{left: -300, right: 300, top: -300, bottom: 300}}
         onClick={(e) => e.stopPropagation()}
@@ -36,19 +42,18 @@ const RecipeModal = ({ children, handleClose, recipe }) => {
         animate="visible"
         exit="exit"
       >
-        <button onClick={handleClose}>Close</button>
-        <Link to={"/letscook/" + recipe._id}>
-          <button>
-            LET'S COOK!
-          </button>
-        </Link>
-        <Link to={"/edit/" + recipe._id}>
-          <button>
-            FULL PAGE
-          </button>
-        </Link>
-      {children}
-      </div>
+        <div className="button-container">
+          <Link className="expand-button left" to={"/edit/" + recipe._id}>
+            <img className="expand-icon" src={expand} alt="expand page icon" />
+            <p style={{ padding: "10px" }}>Expand to full page</p>
+          </Link>
+          <div className="expand-button right" onClick={handleClose}>
+            <p style={{ padding: "10px" }}>Close & Save</p>
+            <img className="close-icon" src={close} alt="expand page icon" />
+          </div>
+        </div>
+        {children}
+      </motion.div>
     </Backdrop>
   );
 };

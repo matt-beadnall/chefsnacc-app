@@ -24,6 +24,8 @@
     width: 100%;
     display: block;
     padding: 20px;
+    overflow: scroll;
+
 }
 
 .recipe_field {
@@ -115,4 +117,6 @@
         width: 100%;
       }
 }
-
+.repipe-header:hover {
+    border-bottom: 2px dashed #999;
+}

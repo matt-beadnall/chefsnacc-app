@@ -128,7 +128,7 @@ export default function Recipe(props) {
     // setPictures([]);
     axios
       .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery/recipes/${props.recipe._id}`
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery/recipes/recipe/${props.recipe._id}`
       )
       .then((res) => {
         res.data
@@ -168,7 +168,7 @@ export default function Recipe(props) {
         <RecipeInfo>
           Suitability: {getSuitability(props.recipe, pantryIngredients)}
         </RecipeInfo>
-        <RecipeInfo>Chef: {props.recipe.chef}</RecipeInfo>
+        <RecipeInfo>Chef: {props.recipe.chef.username}</RecipeInfo>
         <RecipeInfo>Created: {formatDate(props.recipe.date_added)}</RecipeInfo>
         <div className={classes.button_group}>
           {selected ? (

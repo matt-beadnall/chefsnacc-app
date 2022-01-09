@@ -9,10 +9,14 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 
+import AuthService from "../services/auth.service";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateRecipeMenu() {
+
+  const currentUser = AuthService.getCurrentUser();
+
 
   const CREATE_RECIPE_BUTTON = "New Recipe";
 
@@ -21,7 +25,11 @@ export default function CreateRecipeMenu() {
 
   const blankRecipe = {
     name: "",
-    chef: JSON.parse(localStorage.getItem('user')).username,
+    chef: {
+      userId: currentUser.id,
+      username: currentUser.username,
+      nickname: currentUser.username,
+    },
     description: "",
     time: 0,
     ingredients: [],
@@ -42,12 +50,14 @@ export default function CreateRecipeMenu() {
   };
 
   const handleCreate = () => {
+    console.log({name:currentUser.id})
     let newRecipe = blankRecipe;
+
     newRecipe.name = name;
     axios
       .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/add`, newRecipe)
       .then((res) => {
-        history.push("/edit/" + res.data.newRecipe._id);
+        history("/edit/" + res.data.newRecipe._id);
       });
     setOpen(false);
   };
