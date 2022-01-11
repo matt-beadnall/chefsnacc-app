@@ -1,11 +1,11 @@
 import "./SideBar.css";
 
 import { LogoGroup, StyledLink } from "../styled/CommonStyledComponents";
+import { NavLink, useLocation } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 
 import AuthService from "../services/auth.service";
-import { NavLink } from "react-router-dom";
 import logo from "../images/chefsnacc-logo-teal.svg";
 import { red } from "@material-ui/core/colors";
 import title from "../images/chefsnacc-text-teal.svg";
@@ -147,6 +147,7 @@ export default function SideBar(props) {
   const [collapsed, setCollapsed] = useState(false);
   const [hoverOver, setHoverOver] = useState(false);
   const [animationsArmed, setAnimationsArmed] = useState(false);
+  let location = useLocation();
 
   const sidebarRef = useRef(null);
   const [isResizing, setIsResizing] = useState(false);
@@ -198,11 +199,13 @@ export default function SideBar(props) {
   };
 
   return (
+    location.pathname !== "/" &&
     <SideBarContainer
       onMouseDown={(e) => e.preventDefault()}
       style={{ width: sidebarWidth }}
       ref={sidebarRef}
     >
+    {console.log({location: location})}
       <SideBarArea
         collapsed={collapsed}
         animationsArmed={animationsArmed}

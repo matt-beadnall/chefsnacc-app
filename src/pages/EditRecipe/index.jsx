@@ -366,11 +366,11 @@ export default function EditRecipe({ recipeIdentifier }) {
       <div className="header">
         {readOnly ? null : <h3 className="edit_mode">EDIT MODE</h3>}
         <div
-          className="expand-button left"
+          className="back-button"
           onClick={() => navigate("/user")}
         >
           <img
-            style={{ width: "30px", height: "30px" }}
+            className="back-icon"
             src={back}
             alt="navigate back"
           ></img>

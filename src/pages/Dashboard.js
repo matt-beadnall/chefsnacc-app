@@ -36,9 +36,12 @@ const Dashboard = () => {
       <button>Recommend!</button>
       <h2>Recent Recipes</h2>
       {console.log(recipes)}
-      {recipes.sort((a, b) => a.date_added - b.date_added).map((recipe) => (
+      {recipes.sort((a, b) => a.date_added - b.date_added).slice(0, 5).map((recipe) => (
         <p>{recipe.name}</p>
       ))}
+      <h2>FriendsList</h2>
+      <h2>Activity</h2>
+      
     </div>
   );
 };

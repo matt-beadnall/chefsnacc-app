@@ -120,3 +120,34 @@
 .repipe-header:hover {
     border-bottom: 2px dashed #999;
 }
+
+.back-button {
+    display: flex; 
+    width: fit-content; 
+    height: 50px; 
+    /* margin: 10px; */
+    cursor: pointer;
+    align-items: center;
+    border-radius: 10px;
+    padding: 4px;    
+    scale: 1.0;
+    background-color: transparent;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    text-decoration: none;
+    color: transparent;
+    opacity: 0.3;
+}
+
+.back-button:hover {
+    scale: 1.05;
+    opacity: 0.5;
+    color: black;
+    background-color: rgb(218, 218, 218);
+}
+
+.back-icon {
+    width: 30px;
+    height: 30px; 
+    opacity: 0.5;
+}

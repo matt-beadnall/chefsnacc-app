@@ -1,10 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import React,{ useEffect, useState } from 'react'
 
+import AuthService from "../services/auth.service";
 import EditRecipe from "../pages/EditRecipe/index";
 import Recipe from "../components/Recipe.js";
 import RecipeModal from "./RecipeModal"
 import axios from 'axios';
+
+const currentUser = AuthService.getCurrentUser();
+
 
 const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
     const [recipes, setRecipes] = useState([]);
@@ -25,7 +29,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
   
     useEffect(() => {
       axios
-        .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/`)
+        .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/${currentUser.id}`)
         .then((response) => {
           setRecipes(response.data);
         })

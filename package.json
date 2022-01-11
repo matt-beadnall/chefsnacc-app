@@ -20,6 +20,7 @@
     "deep-diff": "^1.0.2",
     "emoji-picker-react": "^3.4.2",
     "env-cmd": "^10.0.1",
+    "firebase": "^9.6.2",
     "form-data": "^2.3.3",
     "framer-motion": "^5.5.5",
     "immutability-helper": "^3.1.1",

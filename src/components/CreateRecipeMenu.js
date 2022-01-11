@@ -17,7 +17,6 @@ export default function CreateRecipeMenu() {
 
   const currentUser = AuthService.getCurrentUser();
 
-
   const CREATE_RECIPE_BUTTON = "New Recipe";
 
   const history = useNavigate();
@@ -55,7 +54,7 @@ export default function CreateRecipeMenu() {
 
     newRecipe.name = name;
     axios
-      .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/add`, newRecipe)
+      .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/add`, newRecipe)
       .then((res) => {
         history("/edit/" + res.data.newRecipe._id);
       });
