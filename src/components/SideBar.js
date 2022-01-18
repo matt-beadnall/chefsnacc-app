@@ -130,7 +130,7 @@ const LinkListContents = styled.div`
 const SideBarContainer = styled.div`
   display: flex;
   box-shadow: 3px 3px 5px #ddd;
-  margin-right: 10px;
+  z-index:1000;
 `;
 
 const PageDivider = styled.div`

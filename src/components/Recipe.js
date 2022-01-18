@@ -128,7 +128,7 @@ export default function Recipe(props) {
     // setPictures([]);
     axios
       .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery/recipes/recipe/${props.recipe._id}`
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/gallery/recipes/${props.recipe._id}`
       )
       .then((res) => {
         res.data

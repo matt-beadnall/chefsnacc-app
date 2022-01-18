@@ -51,6 +51,8 @@ margin: auto;
 `;
 
 const PageContent = styled.div`
+padding-left: 10px;
+padding-right: 30px;
 overflow: scroll; 
 height:100vh;
 width:100%;

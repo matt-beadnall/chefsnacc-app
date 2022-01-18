@@ -40,7 +40,7 @@ export default function EditRecipe({ recipeIdentifier }) {
   const INITIAL = {
     id: "",
     name: "",
-    chef: "",
+    chef: {},
     description: "",
     category: "",
     ingredients: [],
@@ -107,8 +107,13 @@ export default function EditRecipe({ recipeIdentifier }) {
    */
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("diff");
-    console.log(diff(originalRecipe, currentRecipe));
+    console.log({originalRecipe: originalRecipe});
+    console.log({currentRecipe: currentRecipe});
+    console.log({
+      diff: diff(originalRecipe, currentRecipe),
+      currentRecipe: currentRecipe,
+      originalRecipe: originalRecipe
+    });
     // 1: Create the change object:
     if (changes !== undefined) {
       const recipeChange = {
@@ -156,68 +161,6 @@ export default function EditRecipe({ recipeIdentifier }) {
     setChanges(diff(originalRecipe, newValue));
   };
 
-  const onChangeIngredients = (e, ingredientId) => {
-    const newValue = e.target.value;
-    if (e.target.name === "name") {
-      setCurrentRecipe({
-        ...currentRecipe,
-        ingredients: currentRecipe.ingredients.map((ingredient) =>
-          ingredientId === ingredient._id
-            ? { ...ingredient, name: newValue }
-            : ingredient
-        ),
-      });
-    } else if (e.target.name === "amount") {
-      setCurrentRecipe({
-        ...currentRecipe,
-        ingredients: currentRecipe.ingredients.map((ingredient) =>
-          ingredientId === ingredient._id
-            ? { ...ingredient, amount: newValue }
-            : ingredient
-        ),
-      });
-    } else if (e.target.name === "unit") {
-      setCurrentRecipe({
-        ...currentRecipe,
-        ingredients: currentRecipe.ingredients.map((ingredient) =>
-          ingredientId === ingredient._id
-            ? { ...ingredient, unit: newValue }
-            : ingredient
-        ),
-      });
-    }
-    // set the diff
-    setChanges(diff(originalRecipe, currentRecipe));
-  };
-
-  const onChangeMethod = (i, e) => {
-    e.preventDefault();
-    const newValue = e.target.value;
-    setCurrentRecipe({
-      ...currentRecipe,
-      method: currentRecipe.method.map((entry, n) =>
-        i === n ? { ...entry, description: newValue } : entry
-      ),
-    });
-    setChanges(diff(originalRecipe, currentRecipe));
-  };
-
-  const onAddIngredient = (e) => {
-    e.preventDefault();
-    // add check to see if the last ingredient in list is blank! We don't want multiple blanks
-    let newArray = currentRecipe.ingredients;
-    if (newArray.length !== 0 && newArray[newArray.length - 1].name === "") {
-      alert("please fill in the blank ingredient!");
-    } else {
-      newArray.push({ name: "", amount: 0, unit: "g" });
-      setCurrentRecipe({
-        ...currentRecipe,
-        ingredients: newArray,
-      });
-    }
-
-    setChanges(diff(originalRecipe, currentRecipe));
-  };
 
   const onAddMethodEntry = (e) => {
     e.preventDefault();
@@ -296,21 +239,22 @@ export default function EditRecipe({ recipeIdentifier }) {
             console.log(change);
             let modifiedRecipe = currentRecipe;
             applyChange(modifiedRecipe, true, change);
-            setCurrentRecipe({
-              ...currentRecipe,
-              name: modifiedRecipe.name,
-              chef: modifiedRecipe.chef,
-              description: modifiedRecipe.description,
-              version: targetVersion,
-              ingredients: modifiedRecipe.ingredients
-                .slice()
-                .filter((ingredient) => {
-                  return ingredient.amount !== 0;
-                }),
-              method: modifiedRecipe.method,
-              hidden: modifiedRecipe.hidden,
-              rating: modifiedRecipe.rating,
-            });
+            // setCurrentRecipe({
+            //   ...currentRecipe,
+            //   name: modifiedRecipe.name,
+            //   chef: modifiedRecipe.chef,
+            //   description: modifiedRecipe.description,
+            //   version: targetVersion,
+            //   ingredients: modifiedRecipe.ingredients
+            //     .slice()
+            //     .filter((ingredient) => {
+            //       return ingredient.amount !== 0;
+            //     }),
+            //   method: modifiedRecipe.method,
+            //   hidden: modifiedRecipe.hidden,
+            //   rating: modifiedRecipe.rating,
+            // });
+            setCurrentRecipe(modifiedRecipe);
           });
         });
     }
@@ -337,7 +281,6 @@ export default function EditRecipe({ recipeIdentifier }) {
             setCurrentRecipe({
               ...currentRecipe,
               name: modifiedRecipe.name,
-              chef: modifiedRecipe.chef,
               description: modifiedRecipe.description,
               version: targetVersion,
               // remove blank lines
@@ -395,8 +338,7 @@ export default function EditRecipe({ recipeIdentifier }) {
               type="text"
               className="form_control"
               value={currentRecipe.chef.username}
-              onChange={(event) => onChangeRecipe(event, "chef")}
-              inputprops={{ readOnly: readOnly }}
+              inputprops={{ readOnly: true }}
             />
             <TextField
               label="description"
@@ -425,7 +367,7 @@ export default function EditRecipe({ recipeIdentifier }) {
               </button>
             </div>
             {showIngredients
-              ? IngredientForm(currentRecipe, setIngredients)
+              ? IngredientForm(currentRecipe, setIngredients, setCurrentRecipe, setChanges)
               : null}
             <div style={{ display: "flex", marginTop: "20px" }}>
               <h3>Method</h3>
@@ -511,7 +453,7 @@ export default function EditRecipe({ recipeIdentifier }) {
                 variant="outlined"
                 color="primary"
                 value="Update Recipe"
-                disabled={changes === undefined ? true : false}
+                disabled={currentRecipe === originalRecipe}
               >
                 Save
               </Button>
@@ -547,10 +489,10 @@ export default function EditRecipe({ recipeIdentifier }) {
             <h2>Pictures</h2>
             <UploadImage
               recipeName={currentRecipe.name}
-              recipeId={currentRecipe.id}
+              recipeId={currentRecipe._id}
               recipeDescription={currentRecipe.description}
             />
-            <Gallery currentPageId={currentRecipe.id} />
+            <Gallery currentPageId={currentRecipe._id} />
           </div>
         </div>
       </div>
@@ -566,6 +508,21 @@ export default function EditRecipe({ recipeIdentifier }) {
     //     currentRecipe.method.length
     //   );
     // }, []);
+
+    const onChangeMethod = async (i, e) => {
+      e.preventDefault();
+      
+      const newValue = e.target.value;
+      const method = currentRecipe.method.map((entry, n) =>
+      i === n ? { ...entry, description: newValue } : entry
+    )
+      const delta = diff(originalRecipe, currentRecipe);
+      setCurrentRecipe({
+        ...currentRecipe,
+        method: method,
+      });
+      setChanges(delta);
+    };
 
     return (
       <div style={{ marginTop: "5px" }}>
@@ -624,13 +581,64 @@ export default function EditRecipe({ recipeIdentifier }) {
   /**
    * Re-orderable ingredients list
    */
-  function IngredientForm(recipe, setIngredientsOnRecipe) {
+  function IngredientForm(recipe, setIngredientsOnRecipe, setCurrentRecipe, setChanges) {
     // I believe it is necessary to store the current ingredient state on this component so we can capture the reorder state correctly.
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
       setIngredients(recipe.ingredients);
     }, [recipe.ingredients]);
+
+    const onChangeIngredients = (e, ingredientId) => {
+      const newValue = e.target.value;
+      if (e.target.name === "name") {
+        setCurrentRecipe({
+          ...currentRecipe,
+          ingredients: currentRecipe.ingredients.map((ingredient) =>
+            ingredientId === ingredient._id
+              ? { ...ingredient, name: newValue }
+              : ingredient
+          ),
+        });
+      } else if (e.target.name === "amount") {
+        setCurrentRecipe({
+          ...currentRecipe,
+          ingredients: currentRecipe.ingredients.map((ingredient) =>
+            ingredientId === ingredient._id
+              ? { ...ingredient, amount: newValue }
+              : ingredient
+          ),
+        });
+      } else if (e.target.name === "unit") {
+        setCurrentRecipe({
+          ...currentRecipe,
+          ingredients: currentRecipe.ingredients.map((ingredient) =>
+            ingredientId === ingredient._id
+              ? { ...ingredient, unit: newValue }
+              : ingredient
+          ),
+        });
+      }
+      // set the diff
+      setChanges(diff(originalRecipe, currentRecipe));
+    };
+
+    const onAddIngredient = (e) => {
+      e.preventDefault();
+      // add check to see if the last ingredient in list is blank! We don't want multiple blanks
+      let newArray = currentRecipe.ingredients;
+      if (newArray.length !== 0 && newArray[newArray.length - 1].name === "") {
+        alert("please fill in the blank ingredient!");
+      } else {
+        newArray.push({ name: "", amount: 0, unit: "g" });
+        setCurrentRecipe({
+          ...currentRecipe,
+          ingredients: newArray,
+        });
+      }
+  
+      setChanges(diff(originalRecipe, currentRecipe));
+    };
 
     return (
       <div>

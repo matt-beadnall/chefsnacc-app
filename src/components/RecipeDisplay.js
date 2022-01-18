@@ -28,7 +28,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
     let sorted;
   
     useEffect(() => {
-      axios
+        axios
         .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/${currentUser.id}`)
         .then((response) => {
           setRecipes(response.data);
@@ -36,6 +36,8 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
         .catch((error) => {
           console.log(error);
         });
+
+      
       axios
         .get(
           `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/`
@@ -98,7 +100,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
           initial="hidden"
           animate="show"
         >
-          {sorted.filter(filterType).map((recipe) => (
+          {sorted === undefined ? <p>None</p> : sorted.filter(filterType).map((recipe) => (
               <motion.div
               style={{margin:"10px"}}
                 key={recipe._id}

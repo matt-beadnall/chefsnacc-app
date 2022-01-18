@@ -1,5 +1,6 @@
 import React, {useRef, useState} from "react";
 
+import AuthService from "../services/auth.service";
 import axios from "axios";
 
 const FormData = require("form-data");
@@ -10,6 +11,8 @@ export default function UploadImage({
   recipeDescription,
 }) {
   const [uploadFile, setUploadFile] = useState(undefined);
+  const currentUser = AuthService.getCurrentUser();
+
 
   const divEl = useRef();
 
@@ -21,6 +24,7 @@ export default function UploadImage({
     const formData = new FormData();
     formData.append("recipeName", uploadFile.recipeName);
     formData.append("recipeId", uploadFile.recipeId);
+    formData.append("userId", uploadFile.userId);
     formData.append("recipeDescription", uploadFile.recipeDescription);
     // split out height and width as just wasn't working in express server
     formData.append("height", uploadFile.dimensions.height);
@@ -40,9 +44,9 @@ export default function UploadImage({
         console.log(response);
       })
       .catch((error) => {
-        console.log("oh drat");
+        console.log("image upload failed");
       });
-      // alert("Image Saved!");
+      alert("Image Saved!");
       //reset state:
       setUploadFile(undefined);
   };
@@ -51,8 +55,9 @@ export default function UploadImage({
    * Function called when a user selects an image to be uploaded. We record the dimensions of the image
    * for later use. 
    */
-  const updateImage = (e) => {
-
+  const updateImage = async (e) => {
+    console.log(e.target.files)
+    const file = await e.target.files[0];
     let image = new Image();
     image.onload = function () {
       URL.revokeObjectURL(image.src);
@@ -61,13 +66,13 @@ export default function UploadImage({
         recipeName: recipeName,
         recipeDescription: recipeDescription,
         recipeId: recipeId,
+        userId: currentUser.id,
         dimensions: {width: image.width, height: image.height}, 
-        file: e.target.files[0]
+        file: file
       }
       setUploadFile(picture);
-      console.log(picture);
     };
-    image.src = URL.createObjectURL(e.target.files[0]);
+    image.src = URL.createObjectURL(file);
     // divEl.current.replaceChildren(image);
   };
 
@@ -85,33 +90,4 @@ export default function UploadImage({
       {/* <img src={URL.createObjectURL(uploadFile[0])}></img> */}
     </div>
   );
-
-  // return (
-  //   <div>
-  //     <div>
-  //       <form
-  //         action="http://localhost:4000/chefsnacc/ingredients/gallery"
-  //         method="POST"
-  //         encType="multipart/form-data"
-  //       >
-  //         <div>
-  //           <input type="hidden" id="recipeName" name="recipeName" value={recipeName}></input>
-  //           <input type="hidden" id="recipeId" name="recipeId" value={recipeId}></input>
-  //           <input type="hidden" id="recipeDescription" name="recipeDescription" value={recipeDescription}></input>
-  //           <input
-  //             type="file"
-  //             id="image"
-  //             class="custom-file-input"
-  //             name="image"
-  //             onChange="readSingleFile(this.files)"
-  //             required
-  //           ></input>
-  //         </div>
-  //         <div>
-  //           <button type="submit">Submit</button>
-  //         </div>
-  //       </form>
-  //     </div>
-  //   </div>
-  // );
 }
