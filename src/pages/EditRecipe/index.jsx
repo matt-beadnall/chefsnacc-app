@@ -502,13 +502,6 @@ export default function EditRecipe({ recipeIdentifier }) {
   function MethodForm(showMethod) {
     const textAreaEl = useRef([]);
 
-    // useEffect(() => {
-    //   textAreaEl.current = textAreaEl.current.slice(
-    //     0,
-    //     currentRecipe.method.length
-    //   );
-    // }, []);
-
     const onChangeMethod = async (i, e) => {
       e.preventDefault();
       

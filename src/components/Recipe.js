@@ -1,6 +1,5 @@
 import "./Recipe.css"
 
-import { Button, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 
 import HeartRating from "./HeartRating.js";
@@ -10,6 +9,7 @@ import { formatDate } from "../functions/dateFunctions";
 import getSuitability from "../functions/getSuitability";
 // import { grey } from "@material-ui/core/colors";
 import logoGrey from "../images/chefsnacc-grey.svg";
+import { makeStyles } from "@material-ui/core";
 // import { motion } from "framer-motion/dist/framer-motion";
 import styled from "styled-components";
 

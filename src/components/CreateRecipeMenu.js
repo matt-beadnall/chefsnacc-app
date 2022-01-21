@@ -48,17 +48,36 @@ export default function CreateRecipeMenu() {
     setName(e.target.value);
   };
 
-  const handleCreate = () => {
-    console.log({name:currentUser.id})
+  const handleCreate = async () => {
     let newRecipe = blankRecipe;
 
     newRecipe.name = name;
-    axios
+    const recipeId = await axios
       .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/add`, newRecipe)
       .then((res) => {
-        history("/edit/" + res.data.newRecipe._id);
+        console.log(res);
+        return res.data.newRecipe._id;
       });
-    setOpen(false);
+      
+      const newEvent = {
+        type: "New Event",
+        occured: new Date(),
+        userId: currentUser.id,
+        imgId: "",
+        recipeId: recipeId,
+        description: String
+      }
+      console.log({event: newEvent});
+      // post a new event. Will make this a separate module.
+      axios
+      .post(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/event/add`, newEvent)
+      .then((res) => {
+        console.log(res.message);
+        console.log(res.event);
+      });
+      
+      setOpen(false);
+      history("/edit/" + recipeId);
   };
 
   const handleClose = () => {

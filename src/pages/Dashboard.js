@@ -6,6 +6,7 @@ const Dashboard = () => {
   const currentUser = AuthService.getCurrentUser();
   const [recipes, setRecipes] = React.useState([]);
   const [ingredients, setIngredients] = React.useState([]);
+  const [events, setEvents] = React.useState([]);
 
   React.useEffect(() => {
     axios
@@ -28,6 +29,18 @@ const Dashboard = () => {
       .catch((error) => {
         console.log(error);
       });
+      
+      axios
+      .get(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/events/${currentUser.id}`
+      )
+      .then((response) => {
+        console.log(response)
+        setEvents(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -41,7 +54,9 @@ const Dashboard = () => {
       ))}
       <h2>FriendsList</h2>
       <h2>Activity</h2>
-      
+      {events.sort((a, b) => a.date_added - b.date_added).slice(0, 5).map((event) => (
+        <p>{event.type}</p>
+      ))}
     </div>
   );
 };

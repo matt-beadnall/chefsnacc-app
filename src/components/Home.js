@@ -6,29 +6,29 @@ import { NavBar } from "./NavBar";
 import UserService from "../services/user.service";
 import styled from "styled-components";
 
+const HeaderBox = styled.div`
+margin-top: 60px;
+margin-bottom: 10%;
+width: 100%;
+height: 300px;
+display:flex;
+@media (max-width: 700px) {
+  width: 100%;
+}
+`;
+const MainHeader = styled.h1`
+padding: 50px;
+`;
+
+const MainArtwork = styled.div`
+width: 100%;
+height: 100%;
+background: red;
+`;
+
 const Home = () => {
   const [content, setContent] = useState("");
   const [openSidebar, setOpenSidebar] = useState(false);
-
-  const HeaderBox = styled.div`
-    margin-top: 60px;
-    margin-bottom: 10%;
-    width: 100%;
-    height: 300px;
-    display:flex;
-    @media (max-width: 700px) {
-      width: 100%;
-    }
-  `;
-  const MainHeader = styled.h1`
-    padding: 50px;
-  `;
-
-  const MainArtwork = styled.div`
-    width: 100%;
-    height: 100%;
-    background: red;
-  `;
 
   useEffect(() => {
     UserService.getPublicContent().then(
