@@ -91,7 +91,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
   };
   return (
     <div>
-      {/* <React.Fragment> */}
+      <React.Fragment>
       <motion.div
         className="recipes-container"
         variants={container}
@@ -120,7 +120,7 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
           ))
         )}
       </motion.div>
-      {/* </React.Fragment> */}
+      </React.Fragment>
       <AnimatePresence
         // Disable any initial animations on children that
         // are present when the component is first rendered

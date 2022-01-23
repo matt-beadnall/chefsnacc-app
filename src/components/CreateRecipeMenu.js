@@ -64,7 +64,7 @@ export default function CreateRecipeMenu() {
         occured: new Date(),
         userId: currentUser.id,
         imgId: "",
-        recipeId: recipeId,
+        recipe: recipeId,
         description: String
       }
       console.log({event: newEvent});

@@ -180,6 +180,5 @@ export default function Recipe(props) {
         </div>
       </TextContainer>
     </div>
-    // </Link>
   );
 }

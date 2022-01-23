@@ -1,5 +1,15 @@
 import AuthService from "../services/auth.service";
 import React from "react";
+import logo from "../images/chefsnacc-logo-teal.svg";
+import styled from "styled-components";
+
+
+const ProfileImage = styled.img`
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #70e8c8
+`
 
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
@@ -8,6 +18,7 @@ const Profile = () => {
     <div>
         <div className="container">
           <header className="jumbotron">
+            <ProfileImage src={logo}></ProfileImage>
             <h3>
               <strong>{currentUser.username}</strong> Profile
             </h3>
