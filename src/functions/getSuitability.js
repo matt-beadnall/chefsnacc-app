@@ -1,20 +1,23 @@
 /**
    * Takes a recipe and all the ingredients 
    * TODO - take more parameters, such as available cooking time, and factor this in.
-   * @param {recipe} recipe 
-   * @param {pantry ingredients} pantry_ingr 
-   * @returns 
    */
- export default function getSuitability(recipe, pantry_ingr) {
+ export default function getSuitability(recipe, ingredients) {
     var recipeIngredients = [];
     var matchedIngredients = 0;
 
-    console.log({pantry_ingr:pantry_ingr, recipe_ingredients:recipe.ingredients})
+    const pantry = ingredients.map((ingredient) => {
+      return ingredient.name;
+    });
+    
+    console.log(recipe.ingredients)
+
     recipe.ingredients.forEach((ingredient) => {
       let available;
-      if (pantry_ingr.includes(ingredient.name)) {
+      if (pantry.includes(ingredient.name)) {
         available = true;
         matchedIngredients++;
+        console.log({matched:true})
       } else {
         available = false;
       }

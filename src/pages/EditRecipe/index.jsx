@@ -41,7 +41,7 @@ export default function EditRecipe({ recipeIdentifier }) {
     id: "",
     name: "",
     chef: {},
-    description: "",
+    description: " ",
     category: "",
     ingredients: [],
     method: [],
@@ -582,38 +582,23 @@ export default function EditRecipe({ recipeIdentifier }) {
       setIngredients(recipe.ingredients);
     }, [recipe.ingredients]);
 
-    const onChangeIngredients = (e, ingredientId) => {
+    // This index functionality should be made more solid.
+    const onChangeIngredients = (e, ingredientIndex) => {
       const newValue = e.target.value;
-      if (e.target.name === "name") {
-        setCurrentRecipe({
-          ...currentRecipe,
-          ingredients: currentRecipe.ingredients.map((ingredient) =>
-            ingredientId === ingredient._id
-              ? { ...ingredient, name: newValue }
-              : ingredient
-          ),
-        });
-      } else if (e.target.name === "amount") {
-        setCurrentRecipe({
-          ...currentRecipe,
-          ingredients: currentRecipe.ingredients.map((ingredient) =>
-            ingredientId === ingredient._id
-              ? { ...ingredient, amount: newValue }
-              : ingredient
-          ),
-        });
-      } else if (e.target.name === "unit") {
-        setCurrentRecipe({
-          ...currentRecipe,
-          ingredients: currentRecipe.ingredients.map((ingredient) =>
-            ingredientId === ingredient._id
-              ? { ...ingredient, unit: newValue }
-              : ingredient
-          ),
-        });
-      }
+      console.log({ingredientId:ingredientIndex});
+      var newRecipe = {
+        ...currentRecipe,
+        ingredients: currentRecipe.ingredients.map((ingredient,i) =>
+          ingredientIndex === i
+            ? { ...ingredient, [e.target.name]: newValue }
+            : ingredient
+        ),
+      };
+      setCurrentRecipe(newRecipe);
+  
+      console.log({ingredients:newRecipe.ingredients})
       // set the diff
-      setChanges(diff(originalRecipe, currentRecipe));
+      setChanges(diff(originalRecipe, newRecipe));
     };
 
     const onAddIngredient = (e) => {
@@ -652,7 +637,7 @@ export default function EditRecipe({ recipeIdentifier }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div
+              {/* <div
                 style={{
                   width: "30px",
                   height: "30px",
@@ -661,20 +646,20 @@ export default function EditRecipe({ recipeIdentifier }) {
                 }}
               >
                 {i}
-              </div>
+              </div> */}
               <input
                 style={{ width: "60px" }}
                 type="text"
                 name="amount"
                 value={ingredient.amount}
-                onChange={(e) => onChangeIngredients(e, ingredient._id)}
+                onChange={(e) => onChangeIngredients(e, i)}
                 inputprops={{ readOnly: readOnly }}
               />
               <select
                 style={{ width: "75px", marginLeft: "5px" }}
                 name="unit"
                 value={ingredient.unit}
-                onChange={(e) => onChangeIngredients(e, ingredient._id)}
+                onChange={(e) => onChangeIngredients(e, i)}
                 inputprops={{ readOnly: readOnly }}
               >
                 <option value="">select...</option>
@@ -691,7 +676,7 @@ export default function EditRecipe({ recipeIdentifier }) {
                 type="text"
                 name="name"
                 value={ingredient.name}
-                onChange={(e) => onChangeIngredients(e, ingredient._id)}
+                onChange={(e) => onChangeIngredients(e, i)}
                 inputprops={{ readOnly: readOnly }}
               />
               {readOnly ? null : (

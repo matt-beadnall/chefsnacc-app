@@ -1,6 +1,5 @@
 import AuthService from "../services/auth.service";
 import React from "react";
-import logo from "../images/chefsnacc-logo-teal.svg";
 import plus from "../images/plus.jpg";
 import styled from "styled-components";
 

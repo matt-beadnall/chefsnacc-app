@@ -111,7 +111,6 @@ export default function Recipe(props) {
   const classes = useStyles();
   const [selected, setSelected] = useState("");
   const [pictures, setPictures] = useState([]);
-  const [pantryIngredients, setPantryIngredients] = useState([]);
   const [suitability, setSuitability] = useState(0);
 
   useEffect(() => {
@@ -120,13 +119,10 @@ export default function Recipe(props) {
       console.log({ingredient:ingredient})
       return ingredient.name;
     });
-    setPantryIngredients(pantry);
-    console.log({pantry:pantryIngredients})
-    const suitability = getSuitability(props.recipe, pantry);
+    const suitability = getSuitability(props.recipe, props.ingredients);
     setSuitability(suitability);
     getPictures();
-    // eslint-disable-next-line
-  }, []);
+  }, [props.ingredients, props.recipe]);
 
   const getPictures = () => {
     // setPictures([]);
@@ -170,7 +166,7 @@ export default function Recipe(props) {
         </RecipeHeader>
         <HeartRating rating={props.recipe.rating} />
         <RecipeInfo>
-          Suitability: {suitability}
+          Suitability: {suitability}%
         </RecipeInfo>
         <RecipeInfo>Chef: {props.recipe.chef.username}</RecipeInfo>
         <RecipeInfo>Created: {formatDate(props.recipe.date_added)}</RecipeInfo>

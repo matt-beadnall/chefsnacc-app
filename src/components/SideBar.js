@@ -135,7 +135,7 @@ export default function SideBar(props) {
         >
           {currentUser && sidebarItems.map((item,i) =>
              (
-              <NavLink
+              <NavLink key = {i}
                 className={(navData) =>
                   navData.isActive ? `selected ${item.type}` : `normal ${item.type}`
                 }
