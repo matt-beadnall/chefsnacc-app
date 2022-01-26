@@ -118,7 +118,6 @@ export default function Gallery({ currentPageId }) {
 
   return (
     <div>
-      {console.log(pictures.length === 0)}
       {pictures.length === 0 ? (
         <GridLoader
           color={"#ededed"}

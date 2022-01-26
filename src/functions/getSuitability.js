@@ -6,18 +6,16 @@
     var recipeIngredients = [];
     var matchedIngredients = 0;
 
+    if(ingredients === undefined) return 0;
     const pantry = ingredients.map((ingredient) => {
       return ingredient.name;
     });
     
-    console.log(recipe.ingredients)
-
     recipe.ingredients.forEach((ingredient) => {
       let available;
       if (pantry.includes(ingredient.name)) {
         available = true;
         matchedIngredients++;
-        console.log({matched:true})
       } else {
         available = false;
       }

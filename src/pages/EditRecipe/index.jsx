@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import { applyChange, diff, revertChange } from "deep-diff";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 import Gallery from "./../Gallery.js";
 import HeartRating from "../../components/HeartRating.js";
@@ -19,6 +19,7 @@ import axios from "axios";
 import back from "../../images/back.svg";
 import { motion } from "framer-motion/dist/framer-motion";
 import reorder from "../../images/reorder.svg";
+import getSuitability from "../../functions/getSuitability";
 
 const options = [
   { value: "vegan", label: "vegan", code: "VGN" },
@@ -36,7 +37,7 @@ const options = [
 //   { value: "tbsp", label: "tbsp" },
 // ];
 
-export default function EditRecipe({ recipeIdentifier }) {
+export default function EditRecipe({ recipe, ingredients }) {
   const INITIAL = {
     id: "",
     name: "",
@@ -47,6 +48,7 @@ export default function EditRecipe({ recipeIdentifier }) {
     method: [],
     time: 0,
     version: 0,
+    suitability: 0,
     pictures: "",
     emoji: "",
     rating: 0,
@@ -56,6 +58,7 @@ export default function EditRecipe({ recipeIdentifier }) {
     hidden: false,
     notes: "",
   };
+
 
   const [originalRecipe, setOriginalRecipe] = useState(INITIAL);
   const [currentRecipe, setCurrentRecipe] = useState(INITIAL);
@@ -67,9 +70,11 @@ export default function EditRecipe({ recipeIdentifier }) {
 
   const [showMethod, setShowMethod] = useState(true);
   const [showIngredients, setShowIngredients] = useState(true);
+  const [pantryIngredients, setPantryIngredients] = useState(true);
   const [readOnly, setReadOnly] = useState(true);
   const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation();
 
   // const reducer = (recipe, action) => {
   //   switch (action.type) {
@@ -82,19 +87,14 @@ export default function EditRecipe({ recipeIdentifier }) {
   // };
 
   useEffect(() => {
-    const recipeId = recipeIdentifier === undefined ? id : recipeIdentifier;
-    axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/recipe/${recipeId}`
-      )
-      .then((response) => {
-        setCurrentRecipe(response.data);
-        setOriginalRecipe(response.data);
-        // setHistoricalRecipe(recipe);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // console.log({loadedRecipe:recipe})
+    // either the recipe/ingredients are passed in as props, or in the navigation header. 
+    // Idea is to keep the number of fetches to the api to a minimum.
+    var loadedRecipe = recipe === undefined ? location.state.recipe : recipe;
+    var loadedIngredients = ingredients === undefined ? location.state.ingredients : ingredients;
+    setPantryIngredients(loadedIngredients);
+    setCurrentRecipe({...loadedRecipe, suitability: getSuitability(loadedRecipe, loadedIngredients)});
+    setOriginalRecipe(loadedRecipe);
   }, [id]);
 
   const changeEditMode = () => {
@@ -142,11 +142,14 @@ export default function EditRecipe({ recipeIdentifier }) {
 
   const onChangeRecipe = (e, key) => {
     e.preventDefault();
-    console.log("change recipe, value: " + e.target.value + " key: " + key);
+    console.log(ingredients);
+    console.log("test");
     const newValue = {
       ...currentRecipe,
       [key]: e.target.value,
+      suitability: getSuitability(currentRecipe, ingredients),
     };
+    //update suitabilit
     setCurrentRecipe(newValue);
     setChanges(diff(originalRecipe, newValue));
   };
@@ -338,6 +341,13 @@ export default function EditRecipe({ recipeIdentifier }) {
               type="text"
               className="form_control"
               value={currentRecipe.chef.username}
+              inputprops={{ readOnly: true }}
+            />
+            <TextField
+              label="suitability"
+              type="text"
+              className="form_control"
+              value={currentRecipe.suitability}
               inputprops={{ readOnly: true }}
             />
             <TextField

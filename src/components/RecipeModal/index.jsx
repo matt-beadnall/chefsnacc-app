@@ -29,7 +29,7 @@ const dropIn = {
   },
 };
 
-const RecipeModal = ({ children, handleClose, recipe }) => {
+const RecipeModal = ({ children, handleClose, recipe, ingredients }) => {
   return (
     <Backdrop onClick={handleClose}>
       <motion.div
@@ -43,7 +43,7 @@ const RecipeModal = ({ children, handleClose, recipe }) => {
         exit="exit"
       >
         <div className="button-container">
-          <Link className="expand-button left" to={"/edit/" + recipe._id}>
+          <Link className="expand-button left" to={"/edit/" + recipe._id} state={{recipe:recipe,ingredients:ingredients}}>
             <img className="expand-icon" src={expand} alt="expand page icon" />
             <p style={{ padding: "10px" }}>Expand to full page</p>
           </Link>

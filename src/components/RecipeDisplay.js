@@ -21,6 +21,7 @@ const RecipeDisplay = ({ filter, displayArchived, sortingMethod }) => {
   const open = (recipe) => {
     setModalOpen(true);
     setSelectedRecipe(recipe);
+    console.log({selectedRecipe:recipe})
   };
 
   // let sorted;
@@ -98,7 +99,6 @@ const RecipeDisplay = ({ filter, displayArchived, sortingMethod }) => {
           initial="hidden"
           animate="show"
         >
-          {console.log({ filter: filter })}
           {recipes === undefined ? (
             <p>None</p>
           ) : (
@@ -139,8 +139,9 @@ const RecipeDisplay = ({ filter, displayArchived, sortingMethod }) => {
             modalOpen={modalOpen}
             handleClose={close}
             recipe={selectedRecipe}
+            ingredients={ingredients}
           >
-            <EditRecipe recipeIdentifier={selectedRecipe._id} />
+            <EditRecipe recipe={selectedRecipe} ingredients={ingredients} />
           </RecipeModal>
         )}
       </AnimatePresence>
