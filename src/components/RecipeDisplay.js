@@ -7,7 +7,7 @@ import Recipe from "../components/Recipe.js";
 import RecipeModal from "./RecipeModal";
 import axios from "axios";
 
-const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
+const RecipeDisplay = ({ filter, displayArchived, sortingMethod }) => {
   const [recipes, setRecipes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,26 +27,26 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
 
   useEffect(() => {
     axios
-    .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/${currentUser.id}`)
-    .then((response) => {
-      setRecipes(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get(`http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/${currentUser.id}`)
+      .then((response) => {
+        setRecipes(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-  
-  axios
-    .get(
-      `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/`
-    )
-    .then((response) => {
-      setIngredients(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}, []);
+
+    axios
+      .get(
+        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/`
+      )
+      .then((response) => {
+        setIngredients(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   let filterType = displayArchived
     ? (current) => current.hidden
@@ -92,34 +92,36 @@ const RecipeDisplay = ({ displayArchived, sortingMethod }) => {
   return (
     <div>
       <React.Fragment>
-      <motion.div
-        className="recipes-container"
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
-        {/* {console.log({ sorted: sorted })} */}
-        {recipes === undefined ? (
-          <p>None</p>
-        ) : (
-          recipes.filter(filterType).map((recipe) => (
-            <motion.div
-              style={{ margin: "10px" }}
-              key={recipe._id}
-              variants={item}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 1 }}
-              onClick={() => (modalOpen ? close() : open(recipe))}
-            >
-              <Recipe
-                recipe={recipe}
-                ingredients={ingredients}
-                // selectRecipe={selectCurrentRecipe(currentRecipe)}
-              />
-            </motion.div>
-          ))
-        )}
-      </motion.div>
+        <motion.div
+          className="recipes-container"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {console.log({ filter: filter })}
+          {recipes === undefined ? (
+            <p>None</p>
+          ) : (
+            recipes.filter(filterType)
+              .filter(recipe => filter === "" || recipe.name.toUpperCase().includes(filter.toUpperCase()))
+              .map((recipe) => (
+                <motion.div
+                  style={{ margin: "10px" }}
+                  key={recipe._id}
+                  variants={item}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 1 }}
+                  onClick={() => (modalOpen ? close() : open(recipe))}
+                >
+                  <Recipe
+                    recipe={recipe}
+                    ingredients={ingredients}
+                  // selectRecipe={selectCurrentRecipe(currentRecipe)}
+                  />
+                </motion.div>
+              ))
+          )}
+        </motion.div>
       </React.Fragment>
       <AnimatePresence
         // Disable any initial animations on children that

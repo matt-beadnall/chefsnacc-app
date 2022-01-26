@@ -9,138 +9,39 @@ import AuthService from "../services/auth.service";
 import logo from "../images/chefsnacc-logo-teal.svg";
 import { red } from "@material-ui/core/colors";
 import title from "../images/chefsnacc-text-teal.svg";
+import { ListItem, SideBarContainer, SideBarArea, CollapseArrow, Logo, LinkListContents, TitleText, PageDivider, SiteFooter } from "./SidebarComponents";
 
-const hide = keyframes`
-0% {width: 300px;}
-100% {width: 50px;}
-`;
+const types = {
+  main: "main",
+  sub: "sub",
+}
 
-const show = keyframes`
-0% {width: 50px;}
-100% {width: 300px;}
-`;
-
-const fade = keyframes`
-0% {opacity: 1;}
-100% {opacity: 0;}
-`;
-
-const appear = keyframes`
-0% {opacity: 0;}
-100% {opacity: 1;}
-`;
-
-const TitleText = styled.img`
-  display: inline-block;
-  visibility: ${(props) => (props.collapsed ? "hidden" : "visible")};
-  animation: ${(props) => (props.collapsed ? fade : appear)} 0.3s linear;
-  transition: visibility 0.3s linear;
-  height: 50px;
-  width: auto;
-  margin-left: 5px;
-  @media (max-width: 700px) {
-    margin-left: 0px;
-  }
-`;
-
-const Logo = styled.img`
-  animation-fill-mode: both;
-  width: 40px;
-  width: ${(props) => (props.collapsed ? "40px" : "60px")};
-  /* transition: width 0.5s linear; */
-  margin: 5px;
-  @media (max-width: 700px) {
-    height: 70px;
-    margin: 5px 15px 5px 0px;
-  }
-`;
-
-const ListItem = styled.li`
-  list-style-type: none;
-  padding: 12px 0px 12px 16px;
-  background-color: inherit;
-  width: 100%;
-  &:hover {
-    font-weight: bold;
-    padding-left: 20px;
-    transition: padding-left 0.1s;
-  }
-`;
-
-const SiteFooter = styled.div`
-  bottom: 0px;
-  width: 100%;
-  padding: 5px;
-  position: absolute;
-  background-color: #70e8c8;
-`;
-
-const SideBarArea = styled.div`
-  ${(props) => {
-    if (props.animationsArmed) {
-      return props.collapsed
-        ? css`
-            animation: ${hide} 0.2s 0s linear 1 forwards;
-          `
-        : css`
-            animation: ${show} 0.2s 0s linear 1 forwards;
-          `;
-    }
-  }};
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background: white;
-`;
-
-const CollapseArrow = styled.div`
-  color: grey;
-  border-radius: 7px;
-  padding: 4px;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 55px;
-  right: -14px;
-  font-size: 1.2em;
-  /* background: #e1e1e1; */
-  background: #e1e1e1;
-  z-index: 100;
-  cursor: pointer;
-  opacity: 1;
-  &:hover {
-    font-weight: bold;
-  }
-  opacity: ${(props) => (props.hover ? 1 : 0)};
-  ${(props) =>
-    props.hover &&
-    css`
-      opacity: 1;
-    `};
-`;
-
-const LinkListContents = styled.div`
-  width: 100%;
-  display: inline-block;
-  visibility: ${(props) => (props.collapsed ? "hidden" : "visible")};
-  animation: ${(props) => (props.collapsed ? fade : appear)} 0.3s linear;
-  transition: visibility 0.3s linear;
-`;
-
-const SideBarContainer = styled.div`
-  display: flex;
-  box-shadow: 3px 3px 5px #ddd;
-  z-index:1000;
-`;
-
-const PageDivider = styled.div`
-  height: 100vh;
-  width: 4px;
-  background-color: transparent;
-  &:hover {
-    cursor: col-resize;
-  }
-`;
+const sidebarItems = [
+  {
+    route: "dashboard",name: "Dashboard", type: types.main
+  },
+  {
+    route: "user", name: "Recipes", type: types.main, sub:[{route: "all", name: "All", type: types.sub}]
+  },
+  {
+    route: "all", name: "All", type: types.sub
+  },
+  {
+    route: "gallery", name: "Gallery", type: types.main
+  },
+  {
+    route: "pantry", name: "Pantry", type: types.main
+  },
+  {
+    route: "profile", name: "Profile", type: types.main
+  },
+  {
+    route: "friends", name: "Friends", type: types.main
+  },
+  {
+    route: "playground", name: "Playground", type: types.main
+  },
+]
 
 export default function SideBar(props) {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -166,7 +67,7 @@ export default function SideBar(props) {
       if (isResizing) {
         const maxWidth = 380;
         const width = mouseMoveEvent.clientX - sidebarRef.current.getBoundingClientRect().left;
-        setSidebarWidth(Math.max(maxWidth,width));
+        setSidebarWidth(Math.max(maxWidth, width));
       }
     },
     [isResizing]
@@ -205,12 +106,12 @@ export default function SideBar(props) {
       style={{ width: sidebarWidth }}
       ref={sidebarRef}
     >
-    {console.log({location: location})}
+      {console.log({ location: location })}
       <SideBarArea
         collapsed={collapsed}
         animationsArmed={animationsArmed}
-        // onMouseOver={() => setHoverOver(true)}
-        // onMouseOut={() => setHoverOver(false)}
+      // onMouseOver={() => setHoverOver(true)}
+      // onMouseOut={() => setHoverOver(false)}
       >
         <CollapseArrow onClick={hideAndShowDraw} hover={hoverOver}>
           {collapsed ? arrowRight : arrowLeft}
@@ -232,7 +133,21 @@ export default function SideBar(props) {
           collapsed={collapsed}
           animationsArmed={animationsArmed}
         >
-            {currentUser && (
+          {currentUser && sidebarItems.map((item,i) =>
+             (
+              <NavLink
+                className={(navData) =>
+                  navData.isActive ? `selected ${item.type}` : `normal ${item.type}`
+                }
+                // className={item.type==="main" ? "main" : "sub"}
+                to={item.route.toLowerCase()}
+              >
+                <ListItem>{item.name}<button onClick={() => {}}>+</button></ListItem>
+                
+              </NavLink>
+            )
+          )}
+          {/* {currentUser && (
             <NavLink
               className={(navData) =>
                 navData.isActive ? "selected" : "normal"
@@ -242,14 +157,14 @@ export default function SideBar(props) {
               <ListItem>Dashboard</ListItem>
             </NavLink>
           )}
-          {currentUser && (
+          {/* {currentUser && (
             <NavLink
               className={(navData) =>
                 navData.isActive ? "selected" : "normal"
               }
-              to={"/user"}
+              to={"/dashboard"}
             >
-              <ListItem>Recipes</ListItem>
+              <ListItem>Dashboard</ListItem>
             </NavLink>
           )}
           {currentUser && (
@@ -311,7 +226,7 @@ export default function SideBar(props) {
             >
               <ListItem>Dev: Code Playground</ListItem>
             </NavLink>
-          )}
+          )} */}
         </LinkListContents>
         <SiteFooter>
           <div>

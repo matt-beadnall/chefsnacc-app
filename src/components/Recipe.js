@@ -112,14 +112,18 @@ export default function Recipe(props) {
   const [selected, setSelected] = useState("");
   const [pictures, setPictures] = useState([]);
   const [pantryIngredients, setPantryIngredients] = useState([]);
+  const [suitability, setSuitability] = useState(0);
 
   useEffect(() => {
-    console.log(props.recipe._id);
     setSelected(props.recipe._id === props.currentlySelected ? true : false);
     const pantry = props.ingredients.map((ingredient) => {
+      console.log({ingredient:ingredient})
       return ingredient.name;
     });
     setPantryIngredients(pantry);
+    console.log({pantry:pantryIngredients})
+    const suitability = getSuitability(props.recipe, pantry);
+    setSuitability(suitability);
     getPictures();
     // eslint-disable-next-line
   }, []);
@@ -166,7 +170,7 @@ export default function Recipe(props) {
         </RecipeHeader>
         <HeartRating rating={props.recipe.rating} />
         <RecipeInfo>
-          Suitability: {getSuitability(props.recipe, pantryIngredients)}
+          Suitability: {suitability}
         </RecipeInfo>
         <RecipeInfo>Chef: {props.recipe.chef.username}</RecipeInfo>
         <RecipeInfo>Created: {formatDate(props.recipe.date_added)}</RecipeInfo>

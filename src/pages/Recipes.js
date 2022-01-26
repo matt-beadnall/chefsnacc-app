@@ -1,6 +1,6 @@
 import "./Recipes.css";
 
-import { Button, makeStyles } from "@material-ui/core";
+import { Button, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 
 import AsyncSelect from 'react-select/async';
@@ -41,6 +41,7 @@ export default function Recipes() {
   const [sortingMethod, setSortingMethod] = useState({ value: 'ALPHA', label: 'Alphabetical' });
   const classes = useStyles();
   const [buttonDesc, setButtonDesc] = useState("null");
+  const [filter, setFilter] = useState("");
 
   const toggleDisplayAll = () => {
     setShowAll(!showArchived);
@@ -90,12 +91,25 @@ export default function Recipes() {
     }
   }
 
+  const setFilterName = (e) => {
+    console.log(e.target.value);
+    setFilter(e.target.value);
+  }
+
   return (
     <div>
       <RecipesHeader>
         <ControlsGroup>
         <AsyncSelect styles={customStyles}></AsyncSelect>
-        <Select styles={{color: "aqua"}}></Select>
+        {/* <Select styles={{color: "aqua"}}></Select> */}
+        <TextField
+              label="Filter Recipe..."
+              type="text"
+              className="form_control"
+              value={filter}
+              onChange={(event) => setFilterName(event)}
+              inputprops={{ readOnly: true }}
+            />
         <div>categories</div>
 
           <CreateRecipeMenu />
@@ -117,7 +131,7 @@ export default function Recipes() {
         </ControlsGroup>
         {/* <DescriptionLine>{buttonDesc}</DescriptionLine> */}
       </RecipesHeader>
-      <RecipeDisplay displayArchived={false} sortingMethod={sortingMethod.value}/>
+      <RecipeDisplay filter={filter} displayArchived={false} sortingMethod={sortingMethod.value}/>
       <Button
         onClick={() => toggleDisplayAll()}
         variant="outlined"

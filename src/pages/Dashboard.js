@@ -4,6 +4,23 @@ import axios from "axios";
 import { DashGridContainer, DashGridItem, DashItemTitle } from "../components/grids/GridComponents";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { formatDateTime } from "../functions/dateFunctions";
+
+const ProfileImage = styled.img`
+  border-radius: 100%;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #70e8c8
+`
+
+const Header = styled.div`
+  align-items: center;
+  display: flex;
+`
+
+const EventContainer = styled.div`
+  // display:flex;
+`
 
 const ListItemLinkStyled = styled.div`
   padding: 5px;
@@ -16,9 +33,11 @@ const ListItemLinkStyled = styled.div`
 const ListItemLink = (props) => {
   // console.log(props)
   return (
-    <Link to={"/edit/" + props.children._id}>
-      <ListItemLinkStyled>{props.children.name}</ListItemLinkStyled>
-    </Link>
+    <>
+      <Link to={"/edit/" + props.children._id}>
+        <ListItemLinkStyled>{props.children.name}</ListItemLinkStyled>
+      </Link>
+    </>
   )
 }
 
@@ -26,13 +45,18 @@ const ListItemLink = (props) => {
 const ListItemEventLink = (props) => {
   console.log(props)
   return (
-    <>
-    <Link style={{textDecoration:"none"}} to={"/edit/" + props.children._id}>
-      <ListItemLinkStyled>
-      <p style={{margin:"0px"}}><span style={{color:"red"}}>{props.user.username}</span> created a new recipe: {props.children.name}</p>
+    <EventContainer>
+        <ListItemLinkStyled>
+      <Header>
+        <ProfileImage />
+        <span style={{ color: "black", fontWeight:"bold", marginLeft: "5px" }}>{props.user.username}</span>
+        <p style={{ color: "grey", margin:"0px", marginLeft: "auto"}}>{formatDateTime(props.children.recipe.date_added)}</p>
+      </Header>
+      <Link style={{ textDecoration: "none" }} to={"/edit/" + props.children._id}>
+        {props.children.recipe && <p style={{ margin: "0px",color:"black" }}> created a new recipe: {props.children.recipe.name}</p>}
+      </Link>
         </ListItemLinkStyled>
-    </Link>
-    </>
+    </EventContainer>
   )
 }
 
@@ -89,11 +113,11 @@ const Dashboard = () => {
         </DashGridItem>
         <DashGridItem>
           <DashItemTitle>Activity</DashItemTitle>
-          {events.sort((a, b) => a.date_added - b.date_added).slice(0, 5).map((eventRec) => {
+          {events.sort((a, b) => a.date_added - b.date_added).reverse().slice(0, 5).map((eventRec) => {
             console.log(eventRec);
             return (
               // <p>{event.recipe.name}</p>
-              <ListItemEventLink user={currentUser} key={eventRec._id}>{eventRec.recipe}</ListItemEventLink>
+              <ListItemEventLink user={currentUser} key={eventRec._id}>{eventRec}</ListItemEventLink>
             )
           })}
         </DashGridItem>

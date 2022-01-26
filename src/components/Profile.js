@@ -1,6 +1,7 @@
 import AuthService from "../services/auth.service";
 import React from "react";
 import logo from "../images/chefsnacc-logo-teal.svg";
+import plus from "../images/plus.jpg";
 import styled from "styled-components";
 
 
@@ -18,7 +19,7 @@ const Profile = () => {
     <div>
         <div className="container">
           <header className="jumbotron">
-            <ProfileImage src={logo}></ProfileImage>
+            <ProfileImage src={plus}></ProfileImage>
             <h3>
               <strong>{currentUser.username}</strong> Profile
             </h3>

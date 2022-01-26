@@ -9,6 +9,7 @@
     var recipeIngredients = [];
     var matchedIngredients = 0;
 
+    console.log({pantry_ingr:pantry_ingr, recipe_ingredients:recipe.ingredients})
     recipe.ingredients.forEach((ingredient) => {
       let available;
       if (pantry_ingr.includes(ingredient.name)) {
@@ -21,14 +22,10 @@
     });
 
     let totalIngredients = recipeIngredients.length;
-
+    
     var result = matchedIngredients / totalIngredients;
+    
+    // console.log({totalIngredients: totalIngredients, matchedIngredients: matchedIngredients});
 
-    var formatter = new Intl.NumberFormat("en-EN", {
-      style: "percent",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-
-    return formatter.format(matchedIngredients === 0 ? 0 : result);
+    return matchedIngredients === 0 ? 0 : result * 100;
   }
