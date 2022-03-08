@@ -236,6 +236,7 @@ export default function SideBar(props) {
         </SiteFooter>
       </SideBarArea>
       <PageDivider onMouseDown={startResizing}></PageDivider>
+      {/* <PageDivider></PageDivider> */}
     </SideBarContainer>
   );
 }
