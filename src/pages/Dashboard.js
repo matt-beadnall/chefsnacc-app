@@ -5,6 +5,7 @@ import { DashGridContainer, DashGridItem, DashItemTitle } from "../components/gr
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { formatDateTime } from "../functions/dateFunctions";
+import { eventsRequest, recipesRequest, ingredientsRequest } from "../requests/CommonRequests";
 
 const ProfileImage = styled.img`
   border-radius: 100%;
@@ -61,7 +62,6 @@ const ListItemEventLink = (props) => {
 }
 
 
-
 const Dashboard = () => {
   const currentUser = AuthService.getCurrentUser();
   const [user, setUser] = React.useState(AuthService.getCurrentUser());
@@ -71,22 +71,7 @@ const Dashboard = () => {
 
   React.useEffect(() => {
 
-    // axios requests
-    const recipesRequest = axios.get(
-      `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/recipes/user/${currentUser.id}`
-    )
-
-    const ingredientsRequest = axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/ingredients/`
-      )
-
-    const eventsRequest = axios
-      .get(
-        `http://${process.env.REACT_APP_BACKEND_SERVER}/chefsnacc/events/${currentUser.id}`
-      )
-
-    axios.all([recipesRequest, ingredientsRequest, eventsRequest])
+    axios.all([recipesRequest(currentUser.id), ingredientsRequest, eventsRequest(currentUser.id)])
       .then(axios.spread((...responses) => {
         setRecipes(responses[0].data);
         setIngredients(responses[1].data);
